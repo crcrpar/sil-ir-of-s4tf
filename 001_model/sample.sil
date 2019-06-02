@@ -1,0 +1,1129 @@
+sil_stage raw
+
+import Builtin
+import Swift
+import SwiftShims
+
+import TensorFlow
+
+@_fieldwiseDifferentiable struct Model : Differentiable {
+  @_hasStorage var w: Float { get set }
+  @_hasStorage var b: Float { get set }
+  func applied(to input: Float) -> Float
+  init(w: Float, b: Float)
+  @_fieldwiseDifferentiable struct AllDifferentiableVariables : Differentiable, AdditiveArithmetic, VectorNumeric {
+    @_hasStorage var w: Float
+    @_hasStorage var b: Float
+    init(w: Float, b: Float)
+    typealias AllDifferentiableVariables = Model.AllDifferentiableVariables
+    typealias TangentVector = Model.AllDifferentiableVariables
+    typealias CotangentVector = Model.AllDifferentiableVariables
+    static var zero: Model.AllDifferentiableVariables { get }
+    static func + (lhs: Model.AllDifferentiableVariables, rhs: Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables
+    static func - (lhs: Model.AllDifferentiableVariables, rhs: Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables
+    func tangentVector(from cotangent: Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables
+    @_implements(Equatable, ==(_:_:)) static func __derived_struct_equals(_ a: Model.AllDifferentiableVariables, _ b: Model.AllDifferentiableVariables) -> Bool
+    typealias Scalar = Float
+    static func * (lhs: Float, rhs: Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables
+  }
+  typealias TangentVector = Model.AllDifferentiableVariables
+  typealias CotangentVector = Model.AllDifferentiableVariables
+  var allDifferentiableVariables: Model.AllDifferentiableVariables { get set }
+  func moved(along direction: Model.AllDifferentiableVariables) -> Model
+  func tangentVector(from cotangent: Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables
+}
+
+@_hasInitialValue let model: Model
+
+@_hasInitialValue let 𝛁model: Model.AllDifferentiableVariables
+
+@_hasInitialValue let 𝛁input: Float
+
+// model
+sil_global hidden [let] @$s6sample5modelAA5ModelVvp : $Model
+
+// 𝛁model
+sil_global hidden [let] @$s6sample0011model_pwDAdAA5ModelV26AllDifferentiableVariablesVvp : $Model.AllDifferentiableVariables
+
+// 𝛁input
+sil_global hidden [let] @$s6sample0011input_pwDAdSfvp : $Float
+
+// main
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+bb0(%0 : @trivial $Int32, %1 : @trivial $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
+  alloc_global @$s6sample5modelAA5ModelVvp        // id: %2
+  %3 = global_addr @$s6sample5modelAA5ModelVvp : $*Model // users: %20, %15
+  %4 = metatype $@thin Model.Type                 // user: %14
+  %5 = metatype $@thin Float.Type                 // user: %8
+  %6 = float_literal $Builtin.FPIEEE80, 0x40018000000000000000 // 4 // user: %8
+  // function_ref Float.init(_builtinFloatLiteral:)
+  %7 = function_ref @$sSf20_builtinFloatLiteralSfBf80__tcfC : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float // user: %8
+  %8 = apply %7(%6, %5) : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float // user: %14
+  %9 = metatype $@thin Float.Type                 // user: %12
+  %10 = float_literal $Builtin.FPIEEE80, 0x4000C000000000000000 // 3 // user: %12
+  // function_ref Float.init(_builtinFloatLiteral:)
+  %11 = function_ref @$sSf20_builtinFloatLiteralSfBf80__tcfC : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float // user: %12
+  %12 = apply %11(%10, %9) : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float // user: %14
+  // function_ref Model.init(w:b:)
+  %13 = function_ref @$s6sample5ModelV1w1bACSf_SftcfC : $@convention(method) (Float, Float, @thin Model.Type) -> Model // user: %14
+  %14 = apply %13(%8, %12, %4) : $@convention(method) (Float, Float, @thin Model.Type) -> Model // user: %15
+  store %14 to [trivial] %3 : $*Model             // id: %15
+  alloc_global @$s6sample0011model_pwDAdAA5ModelV26AllDifferentiableVariablesVvp // id: %16
+  %17 = global_addr @$s6sample0011model_pwDAdAA5ModelV26AllDifferentiableVariablesVvp : $*Model.AllDifferentiableVariables // users: %59, %50
+  alloc_global @$s6sample0011input_pwDAdSfvp      // id: %18
+  %19 = global_addr @$s6sample0011input_pwDAdSfvp : $*Float // users: %77, %50
+  %20 = load [trivial] %3 : $*Model               // user: %22
+  %21 = alloc_stack $Model                        // users: %52, %50, %22
+  store %20 to [trivial] %21 : $*Model            // id: %22
+  %23 = metatype $@thin Float.Type                // user: %26
+  %24 = float_literal $Builtin.FPIEEE80, 0x40008000000000000000 // 2 // user: %26
+  // function_ref Float.init(_builtinFloatLiteral:)
+  %25 = function_ref @$sSf20_builtinFloatLiteralSfBf80__tcfC : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float // user: %26
+  %26 = apply %25(%24, %23) : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float // user: %28
+  %27 = alloc_stack $Float                        // users: %51, %50, %28
+  store %26 to [trivial] %27 : $*Float            // id: %28
+  // function_ref closure #1 in 
+  %29 = function_ref @$s6sampleSfAA5ModelV_SftXEfU_ : $@convention(thin) (Model, Float) -> Float // user: %30
+  %30 = convert_function %29 : $@convention(thin) (Model, Float) -> Float to $@convention(thin) @noescape (Model, Float) -> Float // user: %31
+  %31 = thin_to_thick_function %30 : $@convention(thin) @noescape (Model, Float) -> Float to $@noescape @callee_guaranteed (Model, Float) -> Float // user: %32
+  %32 = autodiff_function [wrt 0 1] [order 1] %31 : $@noescape @callee_guaranteed (Model, Float) -> Float // users: %41, %37, %33
+  %33 = autodiff_function_extract [original] %32 : $@differentiable @noescape @callee_guaranteed (Model, Float) -> Float // user: %35
+  // function_ref thunk for @callee_guaranteed (@unowned Model, @unowned Float) -> (@unowned Float)
+  %34 = function_ref @$s6sample5ModelVS2fIgyyd_ACS2fIegnnr_TR : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> Float) -> @out Float // user: %35
+  %35 = partial_apply [callee_guaranteed] %34(%33) : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> Float) -> @out Float // users: %48, %36
+  %36 = convert_escape_to_noescape [not_guaranteed] %35 : $@callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> @out Float to $@noescape @callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> @out Float // user: %45
+  %37 = autodiff_function_extract [jvp] [order 1] %32 : $@differentiable @noescape @callee_guaranteed (Model, Float) -> Float // user: %39
+  // function_ref thunk for @callee_guaranteed (@unowned Model, @unowned Float) -> (@unowned Float, @owned @escaping @callee_guaranteed (@unowned Model.AllDifferentiableVariables, @unowned Float) -> (@unowned Float))
+  %38 = function_ref @$s6sample5ModelVS2fAC26AllDifferentiableVariablesVS2fIegyyd_Igyydo_ACS2fAES2fIegnnr_Iegnnro_TR : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float)) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float) // user: %39
+  %39 = partial_apply [callee_guaranteed] %38(%37) : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float)) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float) // users: %47, %40
+  %40 = convert_escape_to_noescape [not_guaranteed] %39 : $@callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float) to $@noescape @callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float) // user: %45
+  %41 = autodiff_function_extract [vjp] [order 1] %32 : $@differentiable @noescape @callee_guaranteed (Model, Float) -> Float // user: %43
+  // function_ref thunk for @callee_guaranteed (@unowned Model, @unowned Float) -> (@unowned Float, @owned @escaping @callee_guaranteed (@unowned Float) -> (@unowned Model.AllDifferentiableVariables, @unowned Float))
+  %42 = function_ref @$s6sample5ModelVS3fAC26AllDifferentiableVariablesVSfIegydd_Igyydo_ACS3fAESfIegnrr_Iegnnro_TR : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float))) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float)) // user: %43
+  %43 = partial_apply [callee_guaranteed] %42(%41) : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float))) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float)) // users: %46, %44
+  %44 = convert_escape_to_noescape [not_guaranteed] %43 : $@callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float)) to $@noescape @callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float)) // user: %45
+  %45 = autodiff_function [wrt 0 1] [order 1] %36 : $@noescape @callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> @out Float with {%40 : $@noescape @callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float), %44 : $@noescape @callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float))} // user: %50
+  destroy_value %43 : $@callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float)) // id: %46
+  destroy_value %39 : $@callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float) // id: %47
+  destroy_value %35 : $@callee_guaranteed (@in_guaranteed Model, @in_guaranteed Float) -> @out Float // id: %48
+  // function_ref Differentiable.gradient<A, B>(at:in:)
+  %49 = function_ref @$ss14DifferentiablePsE8gradient2at2in15CotangentVectorQz_AFQyd__tqd___qd_0_x_qd__tXEtsAARd__sAARd_0_SFRd_0_AFs02__A0PQyd_0_Rsd_0_r0_lF : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable><τ_1_0, τ_1_1 where τ_1_0 : Differentiable, τ_1_1 : Differentiable, τ_1_1 : FloatingPoint, τ_1_1 == τ_1_1.CotangentVector> (@in_guaranteed τ_1_0, @differentiable @noescape @callee_guaranteed (@in_guaranteed τ_0_0, @in_guaranteed τ_1_0) -> @out τ_1_1, @in_guaranteed τ_0_0) -> (@out τ_0_0.CotangentVector, @out τ_1_0.CotangentVector) // user: %50
+  %50 = apply %49<Model, Float, Float>(%17, %19, %27, %45, %21) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable><τ_1_0, τ_1_1 where τ_1_0 : Differentiable, τ_1_1 : Differentiable, τ_1_1 : FloatingPoint, τ_1_1 == τ_1_1.CotangentVector> (@in_guaranteed τ_1_0, @differentiable @noescape @callee_guaranteed (@in_guaranteed τ_0_0, @in_guaranteed τ_1_0) -> @out τ_1_1, @in_guaranteed τ_0_0) -> (@out τ_0_0.CotangentVector, @out τ_1_0.CotangentVector)
+  dealloc_stack %27 : $*Float                     // id: %51
+  dealloc_stack %21 : $*Model                     // id: %52
+  %53 = integer_literal $Builtin.Word, 1          // user: %55
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %54 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %55
+  %55 = apply %54<Any>(%53) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %56
+  (%56, %57) = destructure_tuple %55 : $(Array<Any>, Builtin.RawPointer) // users: %70, %67, %58
+  %58 = pointer_to_address %57 : $Builtin.RawPointer to [strict] $*Any // user: %60
+  %59 = load [trivial] %17 : $*Model.AllDifferentiableVariables // user: %61
+  %60 = init_existential_addr %58 : $*Any, $Model.AllDifferentiableVariables // user: %61
+  store %59 to [trivial] %60 : $*Model.AllDifferentiableVariables // id: %61
+  // function_ref default argument 1 of print(_:separator:terminator:)
+  %62 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA0_ : $@convention(thin) () -> @owned String // user: %63
+  %63 = apply %62() : $@convention(thin) () -> @owned String // users: %69, %67
+  // function_ref default argument 2 of print(_:separator:terminator:)
+  %64 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA1_ : $@convention(thin) () -> @owned String // user: %65
+  %65 = apply %64() : $@convention(thin) () -> @owned String // users: %68, %67
+  // function_ref print(_:separator:terminator:)
+  %66 = function_ref @$ss5print_9separator10terminatoryypd_S2StF : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> () // user: %67
+  %67 = apply %66(%56, %63, %65) : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> ()
+  destroy_value %65 : $String                     // id: %68
+  destroy_value %63 : $String                     // id: %69
+  destroy_value %56 : $Array<Any>                 // id: %70
+  %71 = integer_literal $Builtin.Word, 1          // user: %73
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %72 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %73
+  %73 = apply %72<Any>(%71) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %74
+  (%74, %75) = destructure_tuple %73 : $(Array<Any>, Builtin.RawPointer) // users: %88, %85, %76
+  %76 = pointer_to_address %75 : $Builtin.RawPointer to [strict] $*Any // user: %78
+  %77 = load [trivial] %19 : $*Float              // user: %79
+  %78 = init_existential_addr %76 : $*Any, $Float // user: %79
+  store %77 to [trivial] %78 : $*Float            // id: %79
+  // function_ref default argument 1 of print(_:separator:terminator:)
+  %80 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA0_ : $@convention(thin) () -> @owned String // user: %81
+  %81 = apply %80() : $@convention(thin) () -> @owned String // users: %87, %85
+  // function_ref default argument 2 of print(_:separator:terminator:)
+  %82 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA1_ : $@convention(thin) () -> @owned String // user: %83
+  %83 = apply %82() : $@convention(thin) () -> @owned String // users: %86, %85
+  // function_ref print(_:separator:terminator:)
+  %84 = function_ref @$ss5print_9separator10terminatoryypd_S2StF : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> () // user: %85
+  %85 = apply %84(%74, %81, %83) : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> ()
+  destroy_value %83 : $String                     // id: %86
+  destroy_value %81 : $String                     // id: %87
+  destroy_value %74 : $Array<Any>                 // id: %88
+  %89 = integer_literal $Builtin.Int32, 0         // user: %90
+  %90 = struct $Int32 (%89 : $Builtin.Int32)      // user: %91
+  return %90 : $Int32                             // id: %91
+} // end sil function 'main'
+
+// Model.w.getter
+sil hidden [transparent] @$s6sample5ModelV1wSfvg : $@convention(method) (Model) -> Float {
+// %0                                             // users: %2, %1
+bb0(%0 : @trivial $Model):
+  debug_value %0 : $Model, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $Model, #Model.w       // user: %3
+  return %2 : $Float                              // id: %3
+} // end sil function '$s6sample5ModelV1wSfvg'
+
+// Model.w.setter
+sil hidden [transparent] @$s6sample5ModelV1wSfvs : $@convention(method) (Float, @inout Model) -> () {
+// %0                                             // users: %6, %2
+// %1                                             // users: %4, %3
+bb0(%0 : @trivial $Float, %1 : @trivial $*Model):
+  debug_value %0 : $Float, let, name "value", argno 1 // id: %2
+  debug_value_addr %1 : $*Model, var, name "self", argno 2 // id: %3
+  %4 = begin_access [modify] [unknown] %1 : $*Model // users: %7, %5
+  %5 = struct_element_addr %4 : $*Model, #Model.w // user: %6
+  assign %0 to %5 : $*Float                       // id: %6
+  end_access %4 : $*Model                         // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelV1wSfvs'
+
+// Model.w.modify
+sil hidden [transparent] @$s6sample5ModelV1wSfvM : $@yield_once @convention(method) (@inout Model) -> @yields @inout Float {
+// %0                                             // users: %2, %1
+bb0(%0 : @trivial $*Model):
+  debug_value_addr %0 : $*Model, var, name "self", argno 1 // id: %1
+  %2 = begin_access [modify] [unknown] %0 : $*Model // users: %5, %8, %3
+  %3 = struct_element_addr %2 : $*Model, #Model.w // user: %4
+  yield %3 : $*Float, resume bb1, unwind bb2      // id: %4
+
+bb1:                                              // Preds: bb0
+  end_access %2 : $*Model                         // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+
+bb2:                                              // Preds: bb0
+  end_access %2 : $*Model                         // id: %8
+  unwind                                          // id: %9
+} // end sil function '$s6sample5ModelV1wSfvM'
+
+// Model.b.getter
+sil hidden [transparent] @$s6sample5ModelV1bSfvg : $@convention(method) (Model) -> Float {
+// %0                                             // users: %2, %1
+bb0(%0 : @trivial $Model):
+  debug_value %0 : $Model, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $Model, #Model.b       // user: %3
+  return %2 : $Float                              // id: %3
+} // end sil function '$s6sample5ModelV1bSfvg'
+
+// Model.b.setter
+sil hidden [transparent] @$s6sample5ModelV1bSfvs : $@convention(method) (Float, @inout Model) -> () {
+// %0                                             // users: %6, %2
+// %1                                             // users: %4, %3
+bb0(%0 : @trivial $Float, %1 : @trivial $*Model):
+  debug_value %0 : $Float, let, name "value", argno 1 // id: %2
+  debug_value_addr %1 : $*Model, var, name "self", argno 2 // id: %3
+  %4 = begin_access [modify] [unknown] %1 : $*Model // users: %7, %5
+  %5 = struct_element_addr %4 : $*Model, #Model.b // user: %6
+  assign %0 to %5 : $*Float                       // id: %6
+  end_access %4 : $*Model                         // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelV1bSfvs'
+
+// Model.b.modify
+sil hidden [transparent] @$s6sample5ModelV1bSfvM : $@yield_once @convention(method) (@inout Model) -> @yields @inout Float {
+// %0                                             // users: %2, %1
+bb0(%0 : @trivial $*Model):
+  debug_value_addr %0 : $*Model, var, name "self", argno 1 // id: %1
+  %2 = begin_access [modify] [unknown] %0 : $*Model // users: %5, %8, %3
+  %3 = struct_element_addr %2 : $*Model, #Model.b // user: %4
+  yield %3 : $*Float, resume bb1, unwind bb2      // id: %4
+
+bb1:                                              // Preds: bb0
+  end_access %2 : $*Model                         // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+
+bb2:                                              // Preds: bb0
+  end_access %2 : $*Model                         // id: %8
+  unwind                                          // id: %9
+} // end sil function '$s6sample5ModelV1bSfvM'
+
+// Model.applied(to:)
+sil hidden @$s6sample5ModelV7applied2toS2f_tF : $@convention(method) (Float, Model) -> Float {
+// %0                                             // users: %8, %2
+// %1                                             // users: %9, %6, %3
+bb0(%0 : @trivial $Float, %1 : @trivial $Model):
+  debug_value %0 : $Float, let, name "input", argno 1 // id: %2
+  debug_value %1 : $Model, let, name "self", argno 2 // id: %3
+  %4 = metatype $@thin Float.Type                 // user: %11
+  %5 = metatype $@thin Float.Type                 // user: %8
+  %6 = struct_extract %1 : $Model, #Model.w       // user: %8
+  // function_ref static Float.* infix(_:_:)
+  %7 = function_ref @$sSf1moiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %8
+  %8 = apply %7(%6, %0, %5) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %11
+  %9 = struct_extract %1 : $Model, #Model.b       // user: %11
+  // function_ref static Float.+ infix(_:_:)
+  %10 = function_ref @$sSf1poiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %11
+  %11 = apply %10(%8, %9, %4) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %12
+  return %11 : $Float                             // id: %12
+} // end sil function '$s6sample5ModelV7applied2toS2f_tF'
+
+// static Float.* infix(_:_:)
+sil [transparent] [serialized] [differentiable source 0 wrt 0, 1 vjp @$sSf12_vjpMultiply3lhs3rhsSf5value_Sf_SftSfc8pullbacktSf_SftFZ] @$sSf1moiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float
+
+// static Float.+ infix(_:_:)
+sil [transparent] [serialized] [differentiable source 0 wrt 0, 1 vjp @$sSf7_vjpAdd3lhs3rhsSf5value_Sf_SftSfc8pullbacktSf_SftFZ] @$sSf1poiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float
+
+// Model.init(w:b:)
+sil hidden @$s6sample5ModelV1w1bACSf_SftcfC : $@convention(method) (Float, Float, @thin Model.Type) -> Model {
+// %0                                             // user: %3
+// %1                                             // user: %3
+bb0(%0 : @trivial $Float, %1 : @trivial $Float, %2 : @trivial $@thin Model.Type):
+  %3 = struct $Model (%0 : $Float, %1 : $Float)   // user: %4
+  return %3 : $Model                              // id: %4
+} // end sil function '$s6sample5ModelV1w1bACSf_SftcfC'
+
+// Model.AllDifferentiableVariables.init(w:b:)
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables {
+// %0                                             // user: %3
+// %1                                             // user: %3
+bb0(%0 : @trivial $Float, %1 : @trivial $Float, %2 : @trivial $@thin Model.AllDifferentiableVariables.Type):
+  %3 = struct $Model.AllDifferentiableVariables (%0 : $Float, %1 : $Float) // user: %4
+  return %3 : $Model.AllDifferentiableVariables   // id: %4
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC'
+
+// static Model.AllDifferentiableVariables.zero.getter
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV4zeroAEvgZ : $@convention(method) (@thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables {
+// %0                                             // user: %1
+bb0(%0 : @trivial $@thin Model.AllDifferentiableVariables.Type):
+  debug_value %0 : $@thin Model.AllDifferentiableVariables.Type, let, name "self", argno 1 // id: %1
+  %2 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %16
+  %3 = metatype $@thin Float.Type
+  %4 = alloc_stack $Float                         // users: %18, %8, %7
+  %5 = metatype $@thick Float.Type                // user: %7
+  // function_ref static AdditiveArithmetic<>.zero.getter
+  %6 = function_ref @$ss18AdditiveArithmeticPss27ExpressibleByIntegerLiteralRzrlE4zeroxvgZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic, τ_0_0 : ExpressibleByIntegerLiteral> (@thick τ_0_0.Type) -> @out τ_0_0 // user: %7
+  %7 = apply %6<Float>(%4, %5) : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic, τ_0_0 : ExpressibleByIntegerLiteral> (@thick τ_0_0.Type) -> @out τ_0_0
+  %8 = load [trivial] %4 : $*Float                // user: %16
+  %9 = metatype $@thin Float.Type
+  %10 = alloc_stack $Float                        // users: %17, %14, %13
+  %11 = metatype $@thick Float.Type               // user: %13
+  // function_ref static AdditiveArithmetic<>.zero.getter
+  %12 = function_ref @$ss18AdditiveArithmeticPss27ExpressibleByIntegerLiteralRzrlE4zeroxvgZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic, τ_0_0 : ExpressibleByIntegerLiteral> (@thick τ_0_0.Type) -> @out τ_0_0 // user: %13
+  %13 = apply %12<Float>(%10, %11) : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic, τ_0_0 : ExpressibleByIntegerLiteral> (@thick τ_0_0.Type) -> @out τ_0_0
+  %14 = load [trivial] %10 : $*Float              // user: %16
+  // function_ref Model.AllDifferentiableVariables.init(w:b:)
+  %15 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %16
+  %16 = apply %15(%8, %14, %2) : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %19
+  dealloc_stack %10 : $*Float                     // id: %17
+  dealloc_stack %4 : $*Float                      // id: %18
+  return %16 : $Model.AllDifferentiableVariables  // id: %19
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV4zeroAEvgZ'
+
+// static AdditiveArithmetic<>.zero.getter
+sil @$ss18AdditiveArithmeticPss27ExpressibleByIntegerLiteralRzrlE4zeroxvgZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic, τ_0_0 : ExpressibleByIntegerLiteral> (@thick τ_0_0.Type) -> @out τ_0_0
+
+// static Model.AllDifferentiableVariables.+ infix(_:_:)
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV1poiyA2E_AEtFZ : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables {
+// %0                                             // users: %13, %8, %3
+// %1                                             // users: %14, %9, %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $Model.AllDifferentiableVariables, %2 : @trivial $@thin Model.AllDifferentiableVariables.Type):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "lhs", argno 1 // id: %3
+  debug_value %1 : $Model.AllDifferentiableVariables, let, name "rhs", argno 2 // id: %4
+  debug_value %2 : $@thin Model.AllDifferentiableVariables.Type, let, name "self", argno 3 // id: %5
+  %6 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %18
+  %7 = metatype $@thin Float.Type                 // user: %11
+  %8 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %11
+  %9 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %11
+  // function_ref static Float.+ infix(_:_:)
+  %10 = function_ref @$sSf1poiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %11
+  %11 = apply %10(%8, %9, %7) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %18
+  %12 = metatype $@thin Float.Type                // user: %16
+  %13 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %16
+  %14 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %16
+  // function_ref static Float.+ infix(_:_:)
+  %15 = function_ref @$sSf1poiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %16
+  %16 = apply %15(%13, %14, %12) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %18
+  // function_ref Model.AllDifferentiableVariables.init(w:b:)
+  %17 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %18
+  %18 = apply %17(%11, %16, %6) : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %19
+  return %18 : $Model.AllDifferentiableVariables  // id: %19
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV1poiyA2E_AEtFZ'
+
+// static Model.AllDifferentiableVariables.- infix(_:_:)
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV1soiyA2E_AEtFZ : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables {
+// %0                                             // users: %13, %8, %3
+// %1                                             // users: %14, %9, %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $Model.AllDifferentiableVariables, %2 : @trivial $@thin Model.AllDifferentiableVariables.Type):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "lhs", argno 1 // id: %3
+  debug_value %1 : $Model.AllDifferentiableVariables, let, name "rhs", argno 2 // id: %4
+  debug_value %2 : $@thin Model.AllDifferentiableVariables.Type, let, name "self", argno 3 // id: %5
+  %6 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %18
+  %7 = metatype $@thin Float.Type                 // user: %11
+  %8 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %11
+  %9 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %11
+  // function_ref static Float.- infix(_:_:)
+  %10 = function_ref @$sSf1soiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %11
+  %11 = apply %10(%8, %9, %7) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %18
+  %12 = metatype $@thin Float.Type                // user: %16
+  %13 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %16
+  %14 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %16
+  // function_ref static Float.- infix(_:_:)
+  %15 = function_ref @$sSf1soiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %16
+  %16 = apply %15(%13, %14, %12) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %18
+  // function_ref Model.AllDifferentiableVariables.init(w:b:)
+  %17 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %18
+  %18 = apply %17(%11, %16, %6) : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %19
+  return %18 : $Model.AllDifferentiableVariables  // id: %19
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV1soiyA2E_AEtFZ'
+
+// static Float.- infix(_:_:)
+sil [transparent] [serialized] [differentiable source 0 wrt 0, 1 vjp @$sSf12_vjpSubtract3lhs3rhsSf5value_Sf_SftSfc8pullbacktSf_SftFZ] @$sSf1soiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float
+
+// Model.AllDifferentiableVariables.tangentVector(from:)
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV13tangentVector4fromA2E_tF : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables {
+// %0                                             // users: %4, %2
+// %1                                             // user: %3
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $Model.AllDifferentiableVariables):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "cotangent", argno 1 // id: %2
+  debug_value %1 : $Model.AllDifferentiableVariables, let, name "self", argno 2 // id: %3
+  return %0 : $Model.AllDifferentiableVariables   // id: %4
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV13tangentVector4fromA2E_tF'
+
+// static Model.AllDifferentiableVariables.__derived_struct_equals(_:_:)
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV23__derived_struct_equalsySbAE_AEtFZ : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Bool {
+// %0                                             // users: %23, %8, %3
+// %1                                             // users: %26, %11, %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $Model.AllDifferentiableVariables, %2 : @trivial $@thin Model.AllDifferentiableVariables.Type):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "a", argno 1 // id: %3
+  debug_value %1 : $Model.AllDifferentiableVariables, let, name "b", argno 2 // id: %4
+  debug_value %2 : $@thin Model.AllDifferentiableVariables.Type, let, name "self", argno 3 // id: %5
+  %6 = metatype $@thin Float.Type
+  %7 = metatype $@thick Float.Type                // user: %15
+  %8 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %10
+  %9 = alloc_stack $Float                         // users: %17, %15, %10
+  store %8 to [trivial] %9 : $*Float              // id: %10
+  %11 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %13
+  %12 = alloc_stack $Float                        // users: %16, %15, %13
+  store %11 to [trivial] %12 : $*Float            // id: %13
+  // function_ref static FloatingPoint.== infix(_:_:)
+  %14 = function_ref @$sSFsE2eeoiySbx_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : FloatingPoint> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool // user: %15
+  %15 = apply %14<Float>(%9, %12, %7) : $@convention(method) <τ_0_0 where τ_0_0 : FloatingPoint> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool // user: %19
+  dealloc_stack %12 : $*Float                     // id: %16
+  dealloc_stack %9 : $*Float                      // id: %17
+  // function_ref Bool._getBuiltinLogicValue()
+  %18 = function_ref @$sSb21_getBuiltinLogicValueBi1_yF : $@convention(method) (Bool) -> Builtin.Int1 // user: %19
+  %19 = apply %18(%15) : $@convention(method) (Bool) -> Builtin.Int1 // user: %20
+  cond_br %19, bb1, bb4                           // id: %20
+
+bb1:                                              // Preds: bb0
+  %21 = metatype $@thin Float.Type
+  %22 = metatype $@thick Float.Type               // user: %30
+  %23 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %25
+  %24 = alloc_stack $Float                        // users: %32, %30, %25
+  store %23 to [trivial] %24 : $*Float            // id: %25
+  %26 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %28
+  %27 = alloc_stack $Float                        // users: %31, %30, %28
+  store %26 to [trivial] %27 : $*Float            // id: %28
+  // function_ref static FloatingPoint.== infix(_:_:)
+  %29 = function_ref @$sSFsE2eeoiySbx_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : FloatingPoint> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool // user: %30
+  %30 = apply %29<Float>(%24, %27, %22) : $@convention(method) <τ_0_0 where τ_0_0 : FloatingPoint> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool // user: %34
+  dealloc_stack %27 : $*Float                     // id: %31
+  dealloc_stack %24 : $*Float                     // id: %32
+  // function_ref Bool._getBuiltinLogicValue()
+  %33 = function_ref @$sSb21_getBuiltinLogicValueBi1_yF : $@convention(method) (Bool) -> Builtin.Int1 // user: %34
+  %34 = apply %33(%30) : $@convention(method) (Bool) -> Builtin.Int1 // user: %35
+  cond_br %34, bb2, bb3                           // id: %35
+
+bb2:                                              // Preds: bb1
+  %36 = metatype $@thin Bool.Type                 // user: %39
+  %37 = integer_literal $Builtin.Int1, -1         // user: %39
+  // function_ref Bool.init(_builtinBooleanLiteral:)
+  %38 = function_ref @$sSb22_builtinBooleanLiteralSbBi1__tcfC : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool // user: %39
+  %39 = apply %38(%37, %36) : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool // user: %40
+  br bb5(%39 : $Bool)                             // id: %40
+
+bb3:                                              // Preds: bb1
+  %41 = metatype $@thin Bool.Type                 // user: %44
+  %42 = integer_literal $Builtin.Int1, 0          // user: %44
+  // function_ref Bool.init(_builtinBooleanLiteral:)
+  %43 = function_ref @$sSb22_builtinBooleanLiteralSbBi1__tcfC : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool // user: %44
+  %44 = apply %43(%42, %41) : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool // user: %45
+  br bb5(%44 : $Bool)                             // id: %45
+
+bb4:                                              // Preds: bb0
+  %46 = metatype $@thin Bool.Type                 // user: %49
+  %47 = integer_literal $Builtin.Int1, 0          // user: %49
+  // function_ref Bool.init(_builtinBooleanLiteral:)
+  %48 = function_ref @$sSb22_builtinBooleanLiteralSbBi1__tcfC : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool // user: %49
+  %49 = apply %48(%47, %46) : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool // user: %50
+  br bb5(%49 : $Bool)                             // id: %50
+
+// %51                                            // user: %52
+bb5(%51 : @trivial $Bool):                        // Preds: bb2 bb3 bb4
+  return %51 : $Bool                              // id: %52
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV23__derived_struct_equalsySbAE_AEtFZ'
+
+// Bool.init(_builtinBooleanLiteral:)
+sil [transparent] [serialized] @$sSb22_builtinBooleanLiteralSbBi1__tcfC : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool
+
+// static FloatingPoint.== infix(_:_:)
+sil [transparent] [serialized] @$sSFsE2eeoiySbx_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : FloatingPoint> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool
+
+// Bool._getBuiltinLogicValue()
+sil [transparent] [serialized] @$sSb21_getBuiltinLogicValueBi1_yF : $@convention(method) (Bool) -> Builtin.Int1
+
+// static Model.AllDifferentiableVariables.* infix(_:_:)
+sil hidden @$s6sample5ModelV26AllDifferentiableVariablesV1moiyAESf_AEtFZ : $@convention(method) (Float, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables {
+// %0                                             // users: %14, %10, %3
+// %1                                             // users: %12, %8, %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $Float, %1 : @trivial $Model.AllDifferentiableVariables, %2 : @trivial $@thin Model.AllDifferentiableVariables.Type):
+  debug_value %0 : $Float, let, name "lhs", argno 1 // id: %3
+  debug_value %1 : $Model.AllDifferentiableVariables, let, name "rhs", argno 2 // id: %4
+  debug_value %2 : $@thin Model.AllDifferentiableVariables.Type, let, name "self", argno 3 // id: %5
+  %6 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %16
+  %7 = metatype $@thin Float.Type                 // user: %10
+  %8 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %10
+  // function_ref static Float.* infix(_:_:)
+  %9 = function_ref @$sSf1moiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %10
+  %10 = apply %9(%0, %8, %7) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %16
+  %11 = metatype $@thin Float.Type                // user: %14
+  %12 = struct_extract %1 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %14
+  // function_ref static Float.* infix(_:_:)
+  %13 = function_ref @$sSf1moiyS2f_SftFZ : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %14
+  %14 = apply %13(%0, %12, %11) : $@convention(method) (Float, Float, @thin Float.Type) -> Float // user: %16
+  // function_ref Model.AllDifferentiableVariables.init(w:b:)
+  %15 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %16
+  %16 = apply %15(%10, %14, %6) : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %17
+  return %16 : $Model.AllDifferentiableVariables  // id: %17
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesV1moiyAESf_AEtFZ'
+
+// protocol witness for static AdditiveArithmetic.zero.getter in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP4zeroxvgZTW : $@convention(witness_method: AdditiveArithmetic) (@thick Model.AllDifferentiableVariables.Type) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %5
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  %2 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %4
+  // function_ref static Model.AllDifferentiableVariables.zero.getter
+  %3 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV4zeroAEvgZ : $@convention(method) (@thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %4
+  %4 = apply %3(%2) : $@convention(method) (@thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %5
+  store %4 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP4zeroxvgZTW'
+
+// protocol witness for static AdditiveArithmetic.+ infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP1poiyxx_xtFZTW : $@convention(witness_method: AdditiveArithmetic) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables, @thick Model.AllDifferentiableVariables.Type) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %9
+// %1                                             // user: %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Model.AllDifferentiableVariables, %3 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  %4 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %8
+  %5 = load [trivial] %2 : $*Model.AllDifferentiableVariables // user: %8
+  %6 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %8
+  // function_ref static Model.AllDifferentiableVariables.+ infix(_:_:)
+  %7 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1poiyA2E_AEtFZ : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %8
+  %8 = apply %7(%4, %5, %6) : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %9
+  store %8 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP1poiyxx_xtFZTW'
+
+// protocol witness for static AdditiveArithmetic.+= infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP2peoiyyxz_xtFZTW : $@convention(witness_method: AdditiveArithmetic) (@inout Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables, @thick Model.AllDifferentiableVariables.Type) -> () {
+// %0                                             // user: %4
+// %1                                             // user: %4
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  // function_ref static AdditiveArithmetic.+= infix(_:_:)
+  %3 = function_ref @$ss18AdditiveArithmeticPsE2peoiyyxz_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic> (@inout τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> () // user: %4
+  %4 = apply %3<Model.AllDifferentiableVariables>(%0, %1, %2) : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic> (@inout τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> ()
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP2peoiyyxz_xtFZTW'
+
+// static AdditiveArithmetic.+= infix(_:_:)
+sil @$ss18AdditiveArithmeticPsE2peoiyyxz_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic> (@inout τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> ()
+
+// protocol witness for static AdditiveArithmetic.- infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP1soiyxx_xtFZTW : $@convention(witness_method: AdditiveArithmetic) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables, @thick Model.AllDifferentiableVariables.Type) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %9
+// %1                                             // user: %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Model.AllDifferentiableVariables, %3 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  %4 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %8
+  %5 = load [trivial] %2 : $*Model.AllDifferentiableVariables // user: %8
+  %6 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %8
+  // function_ref static Model.AllDifferentiableVariables.- infix(_:_:)
+  %7 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1soiyA2E_AEtFZ : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %8
+  %8 = apply %7(%4, %5, %6) : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %9
+  store %8 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP1soiyxx_xtFZTW'
+
+// protocol witness for static AdditiveArithmetic.-= infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP2seoiyyxz_xtFZTW : $@convention(witness_method: AdditiveArithmetic) (@inout Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables, @thick Model.AllDifferentiableVariables.Type) -> () {
+// %0                                             // user: %4
+// %1                                             // user: %4
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  // function_ref static AdditiveArithmetic.-= infix(_:_:)
+  %3 = function_ref @$ss18AdditiveArithmeticPsE2seoiyyxz_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic> (@inout τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> () // user: %4
+  %4 = apply %3<Model.AllDifferentiableVariables>(%0, %1, %2) : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic> (@inout τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> ()
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP2seoiyyxz_xtFZTW'
+
+// static AdditiveArithmetic.-= infix(_:_:)
+sil @$ss18AdditiveArithmeticPsE2seoiyyxz_xtFZ : $@convention(method) <τ_0_0 where τ_0_0 : AdditiveArithmetic> (@inout τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> ()
+
+// protocol witness for static Equatable.== infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVSQAASQ2eeoiySbx_xtFZTW : $@convention(witness_method: Equatable) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables, @thick Model.AllDifferentiableVariables.Type) -> Bool {
+// %0                                             // user: %3
+// %1                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  %3 = load [trivial] %0 : $*Model.AllDifferentiableVariables // user: %7
+  %4 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %7
+  %5 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %7
+  // function_ref static Model.AllDifferentiableVariables.__derived_struct_equals(_:_:)
+  %6 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV23__derived_struct_equalsySbAE_AEtFZ : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Bool // user: %7
+  %7 = apply %6(%3, %4, %5) : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Bool // user: %8
+  return %7 : $Bool                               // id: %8
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVSQAASQ2eeoiySbx_xtFZTW'
+
+// protocol witness for static VectorNumeric.* infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs13VectorNumericAAsAFP1moiyx6ScalarQz_xtFZTW : $@convention(witness_method: VectorNumeric) (@in_guaranteed Float, @in_guaranteed Model.AllDifferentiableVariables, @thick Model.AllDifferentiableVariables.Type) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %9
+// %1                                             // user: %4
+// %2                                             // user: %5
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Float, %2 : @trivial $*Model.AllDifferentiableVariables, %3 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  %4 = load [trivial] %1 : $*Float                // user: %8
+  %5 = load [trivial] %2 : $*Model.AllDifferentiableVariables // user: %8
+  %6 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %8
+  // function_ref static Model.AllDifferentiableVariables.* infix(_:_:)
+  %7 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1moiyAESf_AEtFZ : $@convention(method) (Float, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %8
+  %8 = apply %7(%4, %5, %6) : $@convention(method) (Float, Model.AllDifferentiableVariables, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %9
+  store %8 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs13VectorNumericAAsAFP1moiyx6ScalarQz_xtFZTW'
+
+// protocol witness for static VectorNumeric.*= infix(_:_:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs13VectorNumericAAsAFP2meoiyyxz_6ScalarQztFZTW : $@convention(witness_method: VectorNumeric) (@inout Model.AllDifferentiableVariables, @in_guaranteed Float, @thick Model.AllDifferentiableVariables.Type) -> () {
+// %0                                             // user: %4
+// %1                                             // user: %4
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Float, %2 : @trivial $@thick Model.AllDifferentiableVariables.Type):
+  // function_ref static VectorNumeric.*= infix(_:_:)
+  %3 = function_ref @$ss13VectorNumericPsE2meoiyyxz_6ScalarQztFZ : $@convention(method) <τ_0_0 where τ_0_0 : VectorNumeric> (@inout τ_0_0, @in_guaranteed τ_0_0.Scalar, @thick τ_0_0.Type) -> () // user: %4
+  %4 = apply %3<Model.AllDifferentiableVariables>(%0, %1, %2) : $@convention(method) <τ_0_0 where τ_0_0 : VectorNumeric> (@inout τ_0_0, @in_guaranteed τ_0_0.Scalar, @thick τ_0_0.Type) -> ()
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs13VectorNumericAAsAFP2meoiyyxz_6ScalarQztFZTW'
+
+// static VectorNumeric.*= infix(_:_:)
+sil @$ss13VectorNumericPsE2meoiyyxz_6ScalarQztFZ : $@convention(method) <τ_0_0 where τ_0_0 : VectorNumeric> (@inout τ_0_0, @in_guaranteed τ_0_0.Scalar, @thick τ_0_0.Type) -> ()
+
+// protocol witness for __Differentiable.allDifferentiableVariables.getter in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvgTW : $@convention(witness_method: __Differentiable) (@in_guaranteed Model.AllDifferentiableVariables) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %3
+// %1                                             // user: %3
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables):
+  // function_ref Differentiable<>.allDifferentiableVariables.getter
+  %2 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvg : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0 // user: %3
+  %3 = apply %2<Model.AllDifferentiableVariables>(%0, %1) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0
+  %4 = tuple ()                                   // user: %5
+  return %4 : $()                                 // id: %5
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvgTW'
+
+// Differentiable<>.allDifferentiableVariables.getter
+sil @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvg : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0
+
+// protocol witness for __Differentiable.allDifferentiableVariables.setter in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvsTW : $@convention(witness_method: __Differentiable) (@in Model.AllDifferentiableVariables, @inout Model.AllDifferentiableVariables) -> () {
+// %0                                             // user: %3
+// %1                                             // user: %3
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables):
+  // function_ref Differentiable<>.allDifferentiableVariables.setter
+  %2 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvs : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> () // user: %3
+  %3 = apply %2<Model.AllDifferentiableVariables>(%0, %1) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> ()
+  %4 = tuple ()                                   // user: %5
+  return %4 : $()                                 // id: %5
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvsTW'
+
+// Differentiable<>.allDifferentiableVariables.setter
+sil @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvs : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> ()
+
+// protocol witness for __Differentiable.allDifferentiableVariables.modify in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvMTW : $@yield_once @convention(witness_method: __Differentiable) (@inout Model.AllDifferentiableVariables) -> @yields @inout Model.AllDifferentiableVariables {
+// %0                                             // user: %2
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables):
+  // function_ref Differentiable<>.allDifferentiableVariables.modify
+  %1 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvM : $@yield_once @convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@inout τ_0_0) -> @yields @inout τ_0_0 // user: %2
+  (%2, %3) = begin_apply %1<Model.AllDifferentiableVariables>(%0) : $@yield_once @convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@inout τ_0_0) -> @yields @inout τ_0_0 // users: %4, %5, %8
+  yield %2 : $*Model.AllDifferentiableVariables, resume bb1, unwind bb2 // id: %4
+
+bb1:                                              // Preds: bb0
+  end_apply %3                                    // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+
+bb2:                                              // Preds: bb0
+  abort_apply %3                                  // id: %8
+  unwind                                          // id: %9
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvMTW'
+
+// Differentiable<>.allDifferentiableVariables.modify
+sil @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvM : $@yield_once @convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@inout τ_0_0) -> @yields @inout τ_0_0
+
+// protocol witness for __Differentiable.moved(along:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP5moved5alongx13TangentVectorQz_tFTW : $@convention(witness_method: __Differentiable) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %4
+// %1                                             // user: %4
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Model.AllDifferentiableVariables):
+  // function_ref Differentiable<>.moved(along:)
+  %3 = function_ref @$ss14DifferentiablePs13TangentVectors02__A0PQzRszrlE5moved5alongxx_tF : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0 // user: %4
+  %4 = apply %3<Model.AllDifferentiableVariables>(%0, %1, %2) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP5moved5alongx13TangentVectorQz_tFTW'
+
+// Differentiable<>.moved(along:)
+sil @$ss14DifferentiablePs13TangentVectors02__A0PQzRszrlE5moved5alongxx_tF : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0
+
+// protocol witness for __Differentiable.tangentVector(from:) in conformance Model.AllDifferentiableVariables
+sil private [transparent] [thunk] @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP13tangentVector4from07TangentG0Qz09CotangentG0Qz_tFTW : $@convention(witness_method: __Differentiable) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model.AllDifferentiableVariables) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %7
+// %1                                             // user: %3
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Model.AllDifferentiableVariables):
+  %3 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %6
+  %4 = load [trivial] %2 : $*Model.AllDifferentiableVariables // user: %6
+  // function_ref Model.AllDifferentiableVariables.tangentVector(from:)
+  %5 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV13tangentVector4fromA2E_tF : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables // user: %6
+  %6 = apply %5(%3, %4) : $@convention(method) (Model.AllDifferentiableVariables, Model.AllDifferentiableVariables) -> Model.AllDifferentiableVariables // user: %7
+  store %6 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP13tangentVector4from07TangentG0Qz09CotangentG0Qz_tFTW'
+
+// Model.allDifferentiableVariables.getter
+sil hidden @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvg : $@convention(method) (Model) -> Model.AllDifferentiableVariables {
+// %0                                             // users: %14, %3, %1
+bb0(%0 : @trivial $Model):
+  debug_value %0 : $Model, let, name "self", argno 1 // id: %1
+  %2 = metatype $@thin Model.AllDifferentiableVariables.Type // user: %26
+  %3 = struct_extract %0 : $Model, #Model.w       // user: %5
+  %4 = alloc_stack $Float                         // users: %30, %6, %5
+  store %3 to [trivial] %4 : $*Float              // id: %5
+  %6 = load [trivial] %4 : $*Float                // user: %9
+  %7 = alloc_stack $Float                         // users: %29, %13, %11
+  %8 = alloc_stack $Float                         // users: %12, %11, %9
+  store %6 to [trivial] %8 : $*Float              // id: %9
+  // function_ref Differentiable<>.allDifferentiableVariables.getter
+  %10 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvg : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0 // user: %11
+  %11 = apply %10<Float>(%7, %8) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0
+  dealloc_stack %8 : $*Float                      // id: %12
+  %13 = load [trivial] %7 : $*Float               // user: %26
+  %14 = struct_extract %0 : $Model, #Model.b      // user: %16
+  %15 = alloc_stack $Float                        // users: %28, %17, %16
+  store %14 to [trivial] %15 : $*Float            // id: %16
+  %17 = load [trivial] %15 : $*Float              // user: %20
+  %18 = alloc_stack $Float                        // users: %27, %24, %22
+  %19 = alloc_stack $Float                        // users: %23, %22, %20
+  store %17 to [trivial] %19 : $*Float            // id: %20
+  // function_ref Differentiable<>.allDifferentiableVariables.getter
+  %21 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvg : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0 // user: %22
+  %22 = apply %21<Float>(%18, %19) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in_guaranteed τ_0_0) -> @out τ_0_0
+  dealloc_stack %19 : $*Float                     // id: %23
+  %24 = load [trivial] %18 : $*Float              // user: %26
+  // function_ref Model.AllDifferentiableVariables.init(w:b:)
+  %25 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesV1w1bAESf_SftcfC : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %26
+  %26 = apply %25(%13, %24, %2) : $@convention(method) (Float, Float, @thin Model.AllDifferentiableVariables.Type) -> Model.AllDifferentiableVariables // user: %31
+  dealloc_stack %18 : $*Float                     // id: %27
+  dealloc_stack %15 : $*Float                     // id: %28
+  dealloc_stack %7 : $*Float                      // id: %29
+  dealloc_stack %4 : $*Float                      // id: %30
+  return %26 : $Model.AllDifferentiableVariables  // id: %31
+} // end sil function '$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvg'
+
+// Model.allDifferentiableVariables.setter
+sil hidden @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvs : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> () {
+// %0                                             // users: %13, %4, %2
+// %1                                             // users: %16, %7, %3
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $*Model):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "newValue", argno 1 // id: %2
+  debug_value_addr %1 : $*Model, var, name "self", argno 2 // id: %3
+  %4 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %6
+  %5 = alloc_stack $Float                         // users: %12, %10, %6
+  store %4 to [trivial] %5 : $*Float              // id: %6
+  %7 = begin_access [modify] [unknown] %1 : $*Model // users: %11, %8
+  %8 = struct_element_addr %7 : $*Model, #Model.w // user: %10
+  // function_ref Differentiable<>.allDifferentiableVariables.setter
+  %9 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvs : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> () // user: %10
+  %10 = apply %9<Float>(%5, %8) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> ()
+  end_access %7 : $*Model                         // id: %11
+  dealloc_stack %5 : $*Float                      // id: %12
+  %13 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %15
+  %14 = alloc_stack $Float                        // users: %21, %19, %15
+  store %13 to [trivial] %14 : $*Float            // id: %15
+  %16 = begin_access [modify] [unknown] %1 : $*Model // users: %20, %17
+  %17 = struct_element_addr %16 : $*Model, #Model.b // user: %19
+  // function_ref Differentiable<>.allDifferentiableVariables.setter
+  %18 = function_ref @$ss14DifferentiablePs03AllA9VariablesQzRszrlE03allaC0xvs : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> () // user: %19
+  %19 = apply %18<Float>(%14, %17) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.AllDifferentiableVariables> (@in τ_0_0, @inout τ_0_0) -> ()
+  end_access %16 : $*Model                        // id: %20
+  dealloc_stack %14 : $*Float                     // id: %21
+  %22 = tuple ()                                  // user: %23
+  return %22 : $()                                // id: %23
+} // end sil function '$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvs'
+
+// Model.allDifferentiableVariables.modify
+sil hidden [transparent] @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0VvM : $@yield_once @convention(method) (@inout Model) -> @yields @inout Model.AllDifferentiableVariables {
+// %0                                             // users: %2, %1
+bb0(%0 : @trivial $*Model):
+  debug_value_addr %0 : $*Model, var, name "self", argno 1 // id: %1
+  %2 = begin_access [modify] [unknown] %0 : $*Model // users: %12, %11, %20, %18, %4
+  %3 = alloc_stack $Model.AllDifferentiableVariables // users: %13, %9, %19, %16, %8, %7
+  %4 = load [trivial] %2 : $*Model                // user: %6
+  // function_ref Model.allDifferentiableVariables.getter
+  %5 = function_ref @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvg : $@convention(method) (Model) -> Model.AllDifferentiableVariables // user: %6
+  %6 = apply %5(%4) : $@convention(method) (Model) -> Model.AllDifferentiableVariables // user: %7
+  store %6 to [trivial] %3 : $*Model.AllDifferentiableVariables // id: %7
+  yield %3 : $*Model.AllDifferentiableVariables, resume bb1, unwind bb2 // id: %8
+
+bb1:                                              // Preds: bb0
+  %9 = load [trivial] %3 : $*Model.AllDifferentiableVariables // user: %11
+  // function_ref Model.allDifferentiableVariables.setter
+  %10 = function_ref @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvs : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> () // user: %11
+  %11 = apply %10(%9, %2) : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> ()
+  end_access %2 : $*Model                         // id: %12
+  dealloc_stack %3 : $*Model.AllDifferentiableVariables // id: %13
+  %14 = tuple ()                                  // user: %15
+  return %14 : $()                                // id: %15
+
+bb2:                                              // Preds: bb0
+  %16 = load [trivial] %3 : $*Model.AllDifferentiableVariables // user: %18
+  // function_ref Model.allDifferentiableVariables.setter
+  %17 = function_ref @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvs : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> () // user: %18
+  %18 = apply %17(%16, %2) : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> ()
+  dealloc_stack %3 : $*Model.AllDifferentiableVariables // id: %19
+  end_access %2 : $*Model                         // id: %20
+  unwind                                          // id: %21
+} // end sil function '$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0VvM'
+
+// Model.moved(along:)
+sil hidden @$s6sample5ModelV5moved5alongA2C26AllDifferentiableVariablesV_tF : $@convention(method) (Model.AllDifferentiableVariables, Model) -> Model {
+// %0                                             // users: %21, %9, %2
+// %1                                             // users: %18, %6, %3
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $Model):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "direction", argno 1 // id: %2
+  debug_value %1 : $Model, let, name "self", argno 2 // id: %3
+  %4 = metatype $@thin Model.Type                 // user: %30
+  %5 = alloc_stack $Float                         // users: %32, %16, %13
+  %6 = struct_extract %1 : $Model, #Model.w       // user: %8
+  %7 = alloc_stack $Float                         // users: %15, %13, %8
+  store %6 to [trivial] %7 : $*Float              // id: %8
+  %9 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.w // user: %11
+  %10 = alloc_stack $Float                        // users: %14, %13, %11
+  store %9 to [trivial] %10 : $*Float             // id: %11
+  // function_ref Differentiable<>.moved(along:)
+  %12 = function_ref @$ss14DifferentiablePs13TangentVectors02__A0PQzRszrlE5moved5alongxx_tF : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0 // user: %13
+  %13 = apply %12<Float>(%5, %10, %7) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0
+  dealloc_stack %10 : $*Float                     // id: %14
+  dealloc_stack %7 : $*Float                      // id: %15
+  %16 = load [trivial] %5 : $*Float               // user: %30
+  %17 = alloc_stack $Float                        // users: %31, %28, %25
+  %18 = struct_extract %1 : $Model, #Model.b      // user: %20
+  %19 = alloc_stack $Float                        // users: %27, %25, %20
+  store %18 to [trivial] %19 : $*Float            // id: %20
+  %21 = struct_extract %0 : $Model.AllDifferentiableVariables, #Model.AllDifferentiableVariables.b // user: %23
+  %22 = alloc_stack $Float                        // users: %26, %25, %23
+  store %21 to [trivial] %22 : $*Float            // id: %23
+  // function_ref Differentiable<>.moved(along:)
+  %24 = function_ref @$ss14DifferentiablePs13TangentVectors02__A0PQzRszrlE5moved5alongxx_tF : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0 // user: %25
+  %25 = apply %24<Float>(%17, %22, %19) : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable, τ_0_0 == τ_0_0.TangentVector> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> @out τ_0_0
+  dealloc_stack %22 : $*Float                     // id: %26
+  dealloc_stack %19 : $*Float                     // id: %27
+  %28 = load [trivial] %17 : $*Float              // user: %30
+  // function_ref Model.init(w:b:)
+  %29 = function_ref @$s6sample5ModelV1w1bACSf_SftcfC : $@convention(method) (Float, Float, @thin Model.Type) -> Model // user: %30
+  %30 = apply %29(%16, %28, %4) : $@convention(method) (Float, Float, @thin Model.Type) -> Model // user: %33
+  dealloc_stack %17 : $*Float                     // id: %31
+  dealloc_stack %5 : $*Float                      // id: %32
+  return %30 : $Model                             // id: %33
+} // end sil function '$s6sample5ModelV5moved5alongA2C26AllDifferentiableVariablesV_tF'
+
+// Model.tangentVector(from:)
+sil hidden @$s6sample5ModelV13tangentVector4fromAC26AllDifferentiableVariablesVAG_tF : $@convention(method) (Model.AllDifferentiableVariables, Model) -> Model.AllDifferentiableVariables {
+// %0                                             // users: %4, %2
+// %1                                             // user: %3
+bb0(%0 : @trivial $Model.AllDifferentiableVariables, %1 : @trivial $Model):
+  debug_value %0 : $Model.AllDifferentiableVariables, let, name "cotangent", argno 1 // id: %2
+  debug_value %1 : $Model, let, name "self", argno 2 // id: %3
+  return %0 : $Model.AllDifferentiableVariables   // id: %4
+} // end sil function '$s6sample5ModelV13tangentVector4fromAC26AllDifferentiableVariablesVAG_tF'
+
+// protocol witness for __Differentiable.allDifferentiableVariables.getter in conformance Model
+sil private [transparent] [thunk] @$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvgTW : $@convention(witness_method: __Differentiable) (@in_guaranteed Model) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %5
+// %1                                             // user: %2
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model):
+  %2 = load [trivial] %1 : $*Model                // user: %4
+  // function_ref Model.allDifferentiableVariables.getter
+  %3 = function_ref @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvg : $@convention(method) (Model) -> Model.AllDifferentiableVariables // user: %4
+  %4 = apply %3(%2) : $@convention(method) (Model) -> Model.AllDifferentiableVariables // user: %5
+  store %4 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+} // end sil function '$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvgTW'
+
+// protocol witness for __Differentiable.allDifferentiableVariables.setter in conformance Model
+sil private [transparent] [thunk] @$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvsTW : $@convention(witness_method: __Differentiable) (@in Model.AllDifferentiableVariables, @inout Model) -> () {
+// %0                                             // user: %2
+// %1                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model):
+  %2 = load [trivial] %0 : $*Model.AllDifferentiableVariables // user: %4
+  // function_ref Model.allDifferentiableVariables.setter
+  %3 = function_ref @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0Vvs : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> () // user: %4
+  %4 = apply %3(%2, %1) : $@convention(method) (Model.AllDifferentiableVariables, @inout Model) -> ()
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+} // end sil function '$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvsTW'
+
+// protocol witness for __Differentiable.allDifferentiableVariables.modify in conformance Model
+sil private [transparent] [thunk] @$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvMTW : $@yield_once @convention(witness_method: __Differentiable) (@inout Model) -> @yields @inout Model.AllDifferentiableVariables {
+// %0                                             // user: %2
+bb0(%0 : @trivial $*Model):
+  // function_ref Model.allDifferentiableVariables.modify
+  %1 = function_ref @$s6sample5ModelV26allDifferentiableVariablesAC03AlldE0VvM : $@yield_once @convention(method) (@inout Model) -> @yields @inout Model.AllDifferentiableVariables // user: %2
+  (%2, %3) = begin_apply %1(%0) : $@yield_once @convention(method) (@inout Model) -> @yields @inout Model.AllDifferentiableVariables // users: %4, %5, %8
+  yield %2 : $*Model.AllDifferentiableVariables, resume bb1, unwind bb2 // id: %4
+
+bb1:                                              // Preds: bb0
+  end_apply %3                                    // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+
+bb2:                                              // Preds: bb0
+  abort_apply %3                                  // id: %8
+  unwind                                          // id: %9
+} // end sil function '$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvMTW'
+
+// protocol witness for __Differentiable.moved(along:) in conformance Model
+sil private [transparent] [thunk] @$s6sample5ModelVs16__DifferentiableAAsADP5moved5alongx13TangentVectorQz_tFTW : $@convention(witness_method: __Differentiable) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model) -> @out Model {
+// %0                                             // user: %7
+// %1                                             // user: %3
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Model):
+  %3 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %6
+  %4 = load [trivial] %2 : $*Model                // user: %6
+  // function_ref Model.moved(along:)
+  %5 = function_ref @$s6sample5ModelV5moved5alongA2C26AllDifferentiableVariablesV_tF : $@convention(method) (Model.AllDifferentiableVariables, Model) -> Model // user: %6
+  %6 = apply %5(%3, %4) : $@convention(method) (Model.AllDifferentiableVariables, Model) -> Model // user: %7
+  store %6 to [trivial] %0 : $*Model              // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelVs16__DifferentiableAAsADP5moved5alongx13TangentVectorQz_tFTW'
+
+// protocol witness for __Differentiable.tangentVector(from:) in conformance Model
+sil private [transparent] [thunk] @$s6sample5ModelVs16__DifferentiableAAsADP13tangentVector4from07TangentE0Qz09CotangentE0Qz_tFTW : $@convention(witness_method: __Differentiable) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Model) -> @out Model.AllDifferentiableVariables {
+// %0                                             // user: %7
+// %1                                             // user: %3
+// %2                                             // user: %4
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Model):
+  %3 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %6
+  %4 = load [trivial] %2 : $*Model                // user: %6
+  // function_ref Model.tangentVector(from:)
+  %5 = function_ref @$s6sample5ModelV13tangentVector4fromAC26AllDifferentiableVariablesVAG_tF : $@convention(method) (Model.AllDifferentiableVariables, Model) -> Model.AllDifferentiableVariables // user: %6
+  %6 = apply %5(%3, %4) : $@convention(method) (Model.AllDifferentiableVariables, Model) -> Model.AllDifferentiableVariables // user: %7
+  store %6 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelVs16__DifferentiableAAsADP13tangentVector4from07TangentE0Qz09CotangentE0Qz_tFTW'
+
+// Float.init(_builtinFloatLiteral:)
+sil [transparent] [serialized] @$sSf20_builtinFloatLiteralSfBf80__tcfC : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float
+
+// closure #1 in 
+sil private @$s6sampleSfAA5ModelV_SftXEfU_ : $@convention(thin) (Model, Float) -> Float {
+// %0                                             // users: %5, %2
+// %1                                             // users: %5, %3
+bb0(%0 : @trivial $Model, %1 : @trivial $Float):
+  debug_value %0 : $Model, let, name "model", argno 1 // id: %2
+  debug_value %1 : $Float, let, name "input", argno 2 // id: %3
+  // function_ref Model.applied(to:)
+  %4 = function_ref @$s6sample5ModelV7applied2toS2f_tF : $@convention(method) (Float, Model) -> Float // user: %5
+  %5 = apply %4(%1, %0) : $@convention(method) (Float, Model) -> Float // user: %6
+  return %5 : $Float                              // id: %6
+} // end sil function '$s6sampleSfAA5ModelV_SftXEfU_'
+
+// thunk for @callee_guaranteed (@unowned Model, @unowned Float) -> (@unowned Float)
+sil shared [transparent] [serializable] [reabstraction_thunk] @$s6sample5ModelVS2fIgyyd_ACS2fIegnnr_TR : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> Float) -> @out Float {
+// %0                                             // user: %7
+// %1                                             // user: %4
+// %2                                             // user: %5
+// %3                                             // user: %6
+bb0(%0 : @trivial $*Float, %1 : @trivial $*Model, %2 : @trivial $*Float, %3 : @trivial $@noescape @callee_guaranteed (Model, Float) -> Float):
+  %4 = load [trivial] %1 : $*Model                // user: %6
+  %5 = load [trivial] %2 : $*Float                // user: %6
+  %6 = apply %3(%4, %5) : $@noescape @callee_guaranteed (Model, Float) -> Float // user: %7
+  store %6 to [trivial] %0 : $*Float              // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelVS2fIgyyd_ACS2fIegnnr_TR'
+
+// thunk for @callee_guaranteed (@unowned Model, @unowned Float) -> (@unowned Float, @owned @escaping @callee_guaranteed (@unowned Model.AllDifferentiableVariables, @unowned Float) -> (@unowned Float))
+sil shared [transparent] [serializable] [reabstraction_thunk] @$s6sample5ModelVS2fAC26AllDifferentiableVariablesVS2fIegyyd_Igyydo_ACS2fAES2fIegnnr_Iegnnro_TR : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float)) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float) {
+// %0                                             // user: %9
+// %1                                             // user: %4
+// %2                                             // user: %5
+// %3                                             // user: %6
+bb0(%0 : @trivial $*Float, %1 : @trivial $*Model, %2 : @trivial $*Float, %3 : @trivial $@noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float)):
+  %4 = load [trivial] %1 : $*Model                // user: %6
+  %5 = load [trivial] %2 : $*Float                // user: %6
+  %6 = apply %3(%4, %5) : $@noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float) // user: %7
+  (%7, %8) = destructure_tuple %6 : $(Float, @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float) // users: %9, %11
+  store %7 to [trivial] %0 : $*Float              // id: %9
+  // function_ref thunk for @escaping @callee_guaranteed (@unowned Model.AllDifferentiableVariables, @unowned Float) -> (@unowned Float)
+  %10 = function_ref @$s6sample5ModelV26AllDifferentiableVariablesVS2fIegyyd_AES2fIegnnr_TR : $@convention(thin) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float, @guaranteed @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float) -> @out Float // user: %11
+  %11 = partial_apply [callee_guaranteed] %10(%8) : $@convention(thin) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float, @guaranteed @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float) -> @out Float // user: %12
+  return %11 : $@callee_guaranteed (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float) -> @out Float // id: %12
+} // end sil function '$s6sample5ModelVS2fAC26AllDifferentiableVariablesVS2fIegyyd_Igyydo_ACS2fAES2fIegnnr_Iegnnro_TR'
+
+// thunk for @escaping @callee_guaranteed (@unowned Model.AllDifferentiableVariables, @unowned Float) -> (@unowned Float)
+sil shared [transparent] [serializable] [reabstraction_thunk] @$s6sample5ModelV26AllDifferentiableVariablesVS2fIegyyd_AES2fIegnnr_TR : $@convention(thin) (@in_guaranteed Model.AllDifferentiableVariables, @in_guaranteed Float, @guaranteed @callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float) -> @out Float {
+// %0                                             // user: %7
+// %1                                             // user: %4
+// %2                                             // user: %5
+// %3                                             // user: %6
+bb0(%0 : @trivial $*Float, %1 : @trivial $*Model.AllDifferentiableVariables, %2 : @trivial $*Float, %3 : @guaranteed $@callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float):
+  %4 = load [trivial] %1 : $*Model.AllDifferentiableVariables // user: %6
+  %5 = load [trivial] %2 : $*Float                // user: %6
+  %6 = apply %3(%4, %5) : $@callee_guaranteed (Model.AllDifferentiableVariables, Float) -> Float // user: %7
+  store %6 to [trivial] %0 : $*Float              // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8 : $()                                 // id: %9
+} // end sil function '$s6sample5ModelV26AllDifferentiableVariablesVS2fIegyyd_AES2fIegnnr_TR'
+
+// thunk for @callee_guaranteed (@unowned Model, @unowned Float) -> (@unowned Float, @owned @escaping @callee_guaranteed (@unowned Float) -> (@unowned Model.AllDifferentiableVariables, @unowned Float))
+sil shared [transparent] [serializable] [reabstraction_thunk] @$s6sample5ModelVS3fAC26AllDifferentiableVariablesVSfIegydd_Igyydo_ACS3fAESfIegnrr_Iegnnro_TR : $@convention(thin) (@in_guaranteed Model, @in_guaranteed Float, @noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float))) -> (@out Float, @owned @callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float)) {
+// %0                                             // user: %9
+// %1                                             // user: %4
+// %2                                             // user: %5
+// %3                                             // user: %6
+bb0(%0 : @trivial $*Float, %1 : @trivial $*Model, %2 : @trivial $*Float, %3 : @trivial $@noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float))):
+  %4 = load [trivial] %1 : $*Model                // user: %6
+  %5 = load [trivial] %2 : $*Float                // user: %6
+  %6 = apply %3(%4, %5) : $@noescape @callee_guaranteed (Model, Float) -> (Float, @owned @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float)) // user: %7
+  (%7, %8) = destructure_tuple %6 : $(Float, @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float)) // users: %9, %11
+  store %7 to [trivial] %0 : $*Float              // id: %9
+  // function_ref thunk for @escaping @callee_guaranteed (@unowned Float) -> (@unowned Model.AllDifferentiableVariables, @unowned Float)
+  %10 = function_ref @$sSf6sample5ModelV26AllDifferentiableVariablesVSfIegydd_SfAESfIegnrr_TR : $@convention(thin) (@in_guaranteed Float, @guaranteed @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float)) -> (@out Model.AllDifferentiableVariables, @out Float) // user: %11
+  %11 = partial_apply [callee_guaranteed] %10(%8) : $@convention(thin) (@in_guaranteed Float, @guaranteed @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float)) -> (@out Model.AllDifferentiableVariables, @out Float) // user: %12
+  return %11 : $@callee_guaranteed (@in_guaranteed Float) -> (@out Model.AllDifferentiableVariables, @out Float) // id: %12
+} // end sil function '$s6sample5ModelVS3fAC26AllDifferentiableVariablesVSfIegydd_Igyydo_ACS3fAESfIegnrr_Iegnnro_TR'
+
+// thunk for @escaping @callee_guaranteed (@unowned Float) -> (@unowned Model.AllDifferentiableVariables, @unowned Float)
+sil shared [transparent] [serializable] [reabstraction_thunk] @$sSf6sample5ModelV26AllDifferentiableVariablesVSfIegydd_SfAESfIegnrr_TR : $@convention(thin) (@in_guaranteed Float, @guaranteed @callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float)) -> (@out Model.AllDifferentiableVariables, @out Float) {
+// %0                                             // user: %8
+// %1                                             // user: %9
+// %2                                             // user: %4
+// %3                                             // user: %5
+bb0(%0 : @trivial $*Model.AllDifferentiableVariables, %1 : @trivial $*Float, %2 : @trivial $*Float, %3 : @guaranteed $@callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float)):
+  %4 = load [trivial] %2 : $*Float                // user: %5
+  %5 = apply %3(%4) : $@callee_guaranteed (Float) -> (Model.AllDifferentiableVariables, Float) // user: %6
+  (%6, %7) = destructure_tuple %5 : $(Model.AllDifferentiableVariables, Float) // users: %8, %9
+  store %6 to [trivial] %0 : $*Model.AllDifferentiableVariables // id: %8
+  store %7 to [trivial] %1 : $*Float              // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+} // end sil function '$sSf6sample5ModelV26AllDifferentiableVariablesVSfIegydd_SfAESfIegnrr_TR'
+
+// Differentiable.gradient<A, B>(at:in:)
+sil [serialized] @$ss14DifferentiablePsE8gradient2at2in15CotangentVectorQz_AFQyd__tqd___qd_0_x_qd__tXEtsAARd__sAARd_0_SFRd_0_AFs02__A0PQyd_0_Rsd_0_r0_lF : $@convention(method) <τ_0_0 where τ_0_0 : Differentiable><τ_1_0, τ_1_1 where τ_1_0 : Differentiable, τ_1_1 : Differentiable, τ_1_1 : FloatingPoint, τ_1_1 == τ_1_1.CotangentVector> (@in_guaranteed τ_1_0, @differentiable @noescape @callee_guaranteed (@in_guaranteed τ_0_0, @in_guaranteed τ_1_0) -> @out τ_1_1, @in_guaranteed τ_0_0) -> (@out τ_0_0.CotangentVector, @out τ_1_0.CotangentVector)
+
+// _allocateUninitializedArray<A>(_:)
+sil [serialized] [always_inline] @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer)
+
+// default argument 1 of print(_:separator:terminator:)
+sil hidden_external [serialized] @$ss5print_9separator10terminatoryypd_S2StFfA0_ : $@convention(thin) () -> @owned String
+
+// default argument 2 of print(_:separator:terminator:)
+sil hidden_external [serialized] @$ss5print_9separator10terminatoryypd_S2StFfA1_ : $@convention(thin) () -> @owned String
+
+// print(_:separator:terminator:)
+sil @$ss5print_9separator10terminatoryypd_S2StF : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> ()
+
+sil_witness_table hidden Model.AllDifferentiableVariables: AdditiveArithmetic module sample {
+  base_protocol Equatable: Model.AllDifferentiableVariables: Equatable module sample
+  method #AdditiveArithmetic.zero!getter.1: <Self where Self : AdditiveArithmetic> (Self.Type) -> () -> Self : @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP4zeroxvgZTW	// protocol witness for static AdditiveArithmetic.zero.getter in conformance Model.AllDifferentiableVariables
+  method #AdditiveArithmetic."+"!1: <Self where Self : AdditiveArithmetic> (Self.Type) -> (Self, Self) -> @dynamic_self Self : @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP1poiyxx_xtFZTW	// protocol witness for static AdditiveArithmetic.+ infix(_:_:) in conformance Model.AllDifferentiableVariables
+  method #AdditiveArithmetic."+="!1: <Self where Self : AdditiveArithmetic> (Self.Type) -> (inout Self, Self) -> () : @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP2peoiyyxz_xtFZTW	// protocol witness for static AdditiveArithmetic.+= infix(_:_:) in conformance Model.AllDifferentiableVariables
+  method #AdditiveArithmetic."-"!1: <Self where Self : AdditiveArithmetic> (Self.Type) -> (Self, Self) -> @dynamic_self Self : @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP1soiyxx_xtFZTW	// protocol witness for static AdditiveArithmetic.- infix(_:_:) in conformance Model.AllDifferentiableVariables
+  method #AdditiveArithmetic."-="!1: <Self where Self : AdditiveArithmetic> (Self.Type) -> (inout Self, Self) -> () : @$s6sample5ModelV26AllDifferentiableVariablesVs18AdditiveArithmeticAAsAFP2seoiyyxz_xtFZTW	// protocol witness for static AdditiveArithmetic.-= infix(_:_:) in conformance Model.AllDifferentiableVariables
+}
+
+sil_witness_table hidden Model.AllDifferentiableVariables: Differentiable module sample {
+  base_protocol _Differentiable: Model.AllDifferentiableVariables: _Differentiable module sample
+}
+
+sil_witness_table hidden Model.AllDifferentiableVariables: Equatable module sample {
+  method #Equatable."=="!1: <Self where Self : Equatable> (Self.Type) -> (Self, Self) -> Bool : @$s6sample5ModelV26AllDifferentiableVariablesVSQAASQ2eeoiySbx_xtFZTW	// protocol witness for static Equatable.== infix(_:_:) in conformance Model.AllDifferentiableVariables
+}
+
+sil_witness_table hidden Model.AllDifferentiableVariables: VectorNumeric module sample {
+  base_protocol AdditiveArithmetic: Model.AllDifferentiableVariables: AdditiveArithmetic module sample
+  associated_type_protocol (Scalar: AdditiveArithmetic): Float: AdditiveArithmetic module Swift
+  associated_type Scalar: Float
+  method #VectorNumeric."*"!1: <Self where Self : VectorNumeric> (Self.Type) -> (Self.Scalar, Self) -> @dynamic_self Self : @$s6sample5ModelV26AllDifferentiableVariablesVs13VectorNumericAAsAFP1moiyx6ScalarQz_xtFZTW	// protocol witness for static VectorNumeric.* infix(_:_:) in conformance Model.AllDifferentiableVariables
+  method #VectorNumeric."*="!1: <Self where Self : VectorNumeric> (Self.Type) -> (inout Self, Self.Scalar) -> () : @$s6sample5ModelV26AllDifferentiableVariablesVs13VectorNumericAAsAFP2meoiyyxz_6ScalarQztFZTW	// protocol witness for static VectorNumeric.*= infix(_:_:) in conformance Model.AllDifferentiableVariables
+}
+
+sil_witness_table hidden Model.AllDifferentiableVariables: _Differentiable module sample {
+  base_protocol __Differentiable: Model.AllDifferentiableVariables: __Differentiable module sample
+  associated_type_protocol (CotangentVector: Differentiable): Model.AllDifferentiableVariables: Differentiable module sample
+  associated_type_protocol (TangentVector: Differentiable): Model.AllDifferentiableVariables: Differentiable module sample
+}
+
+sil_witness_table hidden Model.AllDifferentiableVariables: __Differentiable module sample {
+  associated_type_protocol (AllDifferentiableVariables: Differentiable): Model.AllDifferentiableVariables: Differentiable module sample
+  associated_type_protocol (CotangentVector: AdditiveArithmetic): Model.AllDifferentiableVariables: AdditiveArithmetic module sample
+  associated_type_protocol (TangentVector: AdditiveArithmetic): Model.AllDifferentiableVariables: AdditiveArithmetic module sample
+  associated_type TangentVector: Model.AllDifferentiableVariables
+  associated_type CotangentVector: Model.AllDifferentiableVariables
+  associated_type AllDifferentiableVariables: Model.AllDifferentiableVariables
+  method #__Differentiable.allDifferentiableVariables!getter.1: <Self where Self : __Differentiable> (Self) -> () -> Self.AllDifferentiableVariables : @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvgTW	// protocol witness for __Differentiable.allDifferentiableVariables.getter in conformance Model.AllDifferentiableVariables
+  method #__Differentiable.allDifferentiableVariables!setter.1: <Self where Self : __Differentiable> (inout Self) -> (Self.AllDifferentiableVariables) -> () : @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvsTW	// protocol witness for __Differentiable.allDifferentiableVariables.setter in conformance Model.AllDifferentiableVariables
+  method #__Differentiable.allDifferentiableVariables!modify.1: <Self where Self : __Differentiable> (inout Self) -> () -> () : @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP03alldE0ADQzvMTW	// protocol witness for __Differentiable.allDifferentiableVariables.modify in conformance Model.AllDifferentiableVariables
+  method #__Differentiable.moved!1: <Self where Self : __Differentiable> (Self) -> (Self.TangentVector) -> @dynamic_self Self : @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP5moved5alongx13TangentVectorQz_tFTW	// protocol witness for __Differentiable.moved(along:) in conformance Model.AllDifferentiableVariables
+  method #__Differentiable.tangentVector!1: <Self where Self : __Differentiable> (Self) -> (Self.CotangentVector) -> Self.TangentVector : @$s6sample5ModelV26AllDifferentiableVariablesVs02__D0AAsAFP13tangentVector4from07TangentG0Qz09CotangentG0Qz_tFTW	// protocol witness for __Differentiable.tangentVector(from:) in conformance Model.AllDifferentiableVariables
+}
+
+sil_witness_table hidden Model: Differentiable module sample {
+  base_protocol _Differentiable: Model: _Differentiable module sample
+}
+
+sil_witness_table hidden Model: _Differentiable module sample {
+  base_protocol __Differentiable: Model: __Differentiable module sample
+  associated_type_protocol (CotangentVector: Differentiable): Model.AllDifferentiableVariables: Differentiable module sample
+  associated_type_protocol (TangentVector: Differentiable): Model.AllDifferentiableVariables: Differentiable module sample
+}
+
+sil_witness_table hidden Model: __Differentiable module sample {
+  associated_type_protocol (AllDifferentiableVariables: Differentiable): Model.AllDifferentiableVariables: Differentiable module sample
+  associated_type_protocol (CotangentVector: AdditiveArithmetic): Model.AllDifferentiableVariables: AdditiveArithmetic module sample
+  associated_type_protocol (TangentVector: AdditiveArithmetic): Model.AllDifferentiableVariables: AdditiveArithmetic module sample
+  associated_type TangentVector: Model.AllDifferentiableVariables
+  associated_type CotangentVector: Model.AllDifferentiableVariables
+  associated_type AllDifferentiableVariables: Model.AllDifferentiableVariables
+  method #__Differentiable.allDifferentiableVariables!getter.1: <Self where Self : __Differentiable> (Self) -> () -> Self.AllDifferentiableVariables : @$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvgTW	// protocol witness for __Differentiable.allDifferentiableVariables.getter in conformance Model
+  method #__Differentiable.allDifferentiableVariables!setter.1: <Self where Self : __Differentiable> (inout Self) -> (Self.AllDifferentiableVariables) -> () : @$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvsTW	// protocol witness for __Differentiable.allDifferentiableVariables.setter in conformance Model
+  method #__Differentiable.allDifferentiableVariables!modify.1: <Self where Self : __Differentiable> (inout Self) -> () -> () : @$s6sample5ModelVs16__DifferentiableAAsADP03allC9Variables03AllcE0QzvMTW	// protocol witness for __Differentiable.allDifferentiableVariables.modify in conformance Model
+  method #__Differentiable.moved!1: <Self where Self : __Differentiable> (Self) -> (Self.TangentVector) -> @dynamic_self Self : @$s6sample5ModelVs16__DifferentiableAAsADP5moved5alongx13TangentVectorQz_tFTW	// protocol witness for __Differentiable.moved(along:) in conformance Model
+  method #__Differentiable.tangentVector!1: <Self where Self : __Differentiable> (Self) -> (Self.CotangentVector) -> Self.TangentVector : @$s6sample5ModelVs16__DifferentiableAAsADP13tangentVector4from07TangentE0Qz09CotangentE0Qz_tFTW	// protocol witness for __Differentiable.tangentVector(from:) in conformance Model
+}
+
+
+
