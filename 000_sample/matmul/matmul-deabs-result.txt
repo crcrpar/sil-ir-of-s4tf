@@ -1,0 +1,415 @@
+--- TFDeabstraction Result: $s6matmul4mainyyF
+// main()
+sil hidden @$s6matmul4mainyyF : $@convention(thin) () -> () {
+bb0:
+  %0 = metatype $@thin TensorShape.Type           // user: %16
+  %1 = integer_literal $Builtin.Word, 2           // user: %3
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %2 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %3
+  %3 = apply %2<Int>(%1) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %5, %4
+  %4 = tuple_extract %3 : $(Array<Int>, Builtin.RawPointer), 0 // user: %16
+  %5 = tuple_extract %3 : $(Array<Int>, Builtin.RawPointer), 1 // user: %6
+  %6 = pointer_to_address %5 : $Builtin.RawPointer to [strict] $*Int // users: %9, %11
+  %7 = integer_literal $Builtin.Int64, 10         // user: %8
+  %8 = struct $Int (%7 : $Builtin.Int64)          // user: %9
+  store %8 to %6 : $*Int                          // id: %9
+  %10 = integer_literal $Builtin.Word, 1          // user: %11
+  %11 = index_addr %6 : $*Int, %10 : $Builtin.Word // user: %14
+  %12 = integer_literal $Builtin.Int64, 20        // user: %13
+  %13 = struct $Int (%12 : $Builtin.Int64)        // user: %14
+  store %13 to %11 : $*Int                        // id: %14
+  // function_ref TensorShape.init(_:)
+  %15 = function_ref @$s10TensorFlow0A5ShapeVyACSaySiGcfC : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %16
+  %16 = apply %15(%4, %0) : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // users: %93, %81, %28, %27
+  %17 = alloc_stack $Float                        // users: %25, %91, %82, %59
+  %18 = metatype $@thick Float.Type               // user: %25
+  %19 = alloc_stack $Int64                        // users: %25, %23, %26
+  %20 = metatype $@thick Int64.Type               // user: %23
+  %21 = integer_literal $Builtin.IntLiteral, 1    // user: %23
+  // function_ref protocol witness for _ExpressibleByBuiltinIntegerLiteral.init(_builtinIntegerLiteral:) in conformance Int64
+  %22 = function_ref @$ss5Int64Vs35_ExpressibleByBuiltinIntegerLiteralssACP08_builtineF0xBI_tcfCTW : $@convention(witness_method: _ExpressibleByBuiltinIntegerLiteral) (Builtin.IntLiteral, @thick Int64.Type) -> @out Int64 // user: %23
+  %23 = apply %22(%19, %21, %20) : $@convention(witness_method: _ExpressibleByBuiltinIntegerLiteral) (Builtin.IntLiteral, @thick Int64.Type) -> @out Int64
+  // function_ref protocol witness for ExpressibleByIntegerLiteral.init(integerLiteral:) in conformance Float
+  %24 = function_ref @$sSfs27ExpressibleByIntegerLiteralssAAP07integerD0x0cD4TypeQz_tcfCTW : $@convention(witness_method: ExpressibleByIntegerLiteral) (@in Int64, @thick Float.Type) -> @out Float // user: %25
+  %25 = apply %24(%17, %19, %18) : $@convention(witness_method: ExpressibleByIntegerLiteral) (@in Int64, @thick Float.Type) -> @out Float
+  dealloc_stack %19 : $*Int64                     // id: %26
+  retain_value %16 : $TensorShape                 // id: %27
+  %28 = struct_extract %16 : $TensorShape, #TensorShape.dimensions // users: %31, %29
+  retain_value %28 : $Array<Int>                  // id: %29
+  %30 = alloc_stack $Array<Int>                   // users: %45, %50, %49, %31
+  store %28 to %30 : $*Array<Int>                 // id: %31
+  %32 = metatype $@thick Int32.Type               // user: %34
+  // function_ref curry thunk of SignedInteger<>.init<A>(_:)
+  %33 = function_ref @$sSZss17FixedWidthIntegerRzrlEyxqd__cSzRd__lufCTc : $@convention(thin) <τ_0_0 where τ_0_0 : FixedWidthInteger, τ_0_0 : SignedInteger><τ_1_0 where τ_1_0 : BinaryInteger> (@thick τ_0_0.Type) -> @owned @callee_guaranteed (@in_guaranteed τ_1_0) -> @out τ_0_0 // user: %34
+  %34 = apply %33<Int32, Int>(%32) : $@convention(thin) <τ_0_0 where τ_0_0 : FixedWidthInteger, τ_0_0 : SignedInteger><τ_1_0 where τ_1_0 : BinaryInteger> (@thick τ_0_0.Type) -> @owned @callee_guaranteed (@in_guaranteed τ_1_0) -> @out τ_0_0 // user: %36
+  // function_ref thunk for @escaping @callee_guaranteed (@in_guaranteed Int) -> (@out Int32)
+  %35 = function_ref @$sSis5Int32VIegnr_SiABIegyd_TR : $@convention(thin) (Int, @guaranteed @callee_guaranteed (@in_guaranteed Int) -> @out Int32) -> Int32 // user: %36
+  %36 = partial_apply [callee_guaranteed] %35(%34) : $@convention(thin) (Int, @guaranteed @callee_guaranteed (@in_guaranteed Int) -> @out Int32) -> Int32 // user: %37
+  %37 = convert_function %36 : $@callee_guaranteed (Int) -> Int32 to $@callee_guaranteed (Int) -> (Int32, @error Error) // users: %87, %48, %43, %39, %38
+  strong_retain %37 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %38
+  %39 = convert_escape_to_noescape %37 : $@callee_guaranteed (Int) -> (Int32, @error Error) to $@noescape @callee_guaranteed (Int) -> (Int32, @error Error) // user: %41
+  // function_ref thunk for @callee_guaranteed (@unowned Int) -> (@unowned Int32, @error @owned Error)
+  %40 = function_ref @$sSis5Int32Vs5Error_pIgydzo_SiABsAC_pIegnrzo_TR : $@convention(thin) (@in_guaranteed Int, @noescape @callee_guaranteed (Int) -> (Int32, @error Error)) -> (@out Int32, @error Error) // user: %41
+  %41 = partial_apply [callee_guaranteed] %40(%39) : $@convention(thin) (@in_guaranteed Int, @noescape @callee_guaranteed (Int) -> (Int32, @error Error)) -> (@out Int32, @error Error) // users: %86, %47, %42
+  %42 = convert_escape_to_noescape %41 : $@callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) to $@noescape @callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) // user: %45
+  strong_release %37 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %43
+  // function_ref Collection.map<A>(_:)
+  %44 = function_ref @$sSlsE3mapySayqd__Gqd__7ElementQzKXEKlF : $@convention(method) <τ_0_0 where τ_0_0 : Collection><τ_1_0> (@noescape @callee_guaranteed (@in_guaranteed τ_0_0.Element) -> (@out τ_1_0, @error Error), @in_guaranteed τ_0_0) -> (@owned Array<τ_1_0>, @error Error) // user: %45
+  try_apply %44<Array<Int>, Int32>(%42, %30) : $@convention(method) <τ_0_0 where τ_0_0 : Collection><τ_1_0> (@noescape @callee_guaranteed (@in_guaranteed τ_0_0.Element) -> (@out τ_1_0, @error Error), @in_guaranteed τ_0_0) -> (@owned Array<τ_1_0>, @error Error), normal bb1, error bb2 // id: %45
+
+// %46                                            // users: %56, %52
+bb1(%46 : $Array<Int32>):                         // Preds: bb0
+  strong_release %41 : $@callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) // id: %47
+  strong_release %37 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %48
+  destroy_addr %30 : $*Array<Int>                 // id: %49
+  dealloc_stack %30 : $*Array<Int>                // id: %50
+  // function_ref __tf_tensor_from_scalars_1d
+  %51 = function_ref @__tf_tensor_from_scalars_1d : $@convention(thin) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Array<τ_0_0>) -> @owned TensorHandle<τ_0_0> // user: %52
+  %52 = apply %51<Int32>(%46) : $@convention(thin) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Array<τ_0_0>) -> @owned TensorHandle<τ_0_0> // users: %73, %57, %54, %79, %55, %53
+  strong_retain %52 : $TensorHandle<Int32>        // id: %53
+  strong_release %52 : $TensorHandle<Int32>       // id: %54
+  strong_retain %52 : $TensorHandle<Int32>        // id: %55
+  release_value %46 : $Array<Int32>               // id: %56
+  strong_release %52 : $TensorHandle<Int32>       // id: %57
+  %58 = alloc_stack $Float                        // users: %66, %64, %59
+  copy_addr %17 to [initialization] %58 : $*Float // id: %59
+  %60 = graph_op "Const"() {dtype$dtype: i32 1, value$tensor: f32 0x3F800000 /* 1 */, __device: "ALL_DEVICES"} : $TensorHandle<Float> // users: %73, %61, %63, %78, %62, %65
+  strong_retain %60 : $TensorHandle<Float>        // id: %61
+  strong_release %60 : $TensorHandle<Float>       // id: %62
+  strong_retain %60 : $TensorHandle<Float>        // id: %63
+  destroy_addr %58 : $*Float                      // id: %64
+  strong_release %60 : $TensorHandle<Float>       // id: %65
+  dealloc_stack %58 : $*Float                     // id: %66
+  %67 = metatype $@thick Float.Type               // user: %69
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Float
+  %68 = function_ref @$sSf10TensorFlow01_aB18DataTypeCompatibleA2aBP06tensorbcD0AA0acD0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType // user: %69
+  %69 = apply %68(%67) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType
+  %70 = metatype $@thick Int32.Type               // user: %72
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Int32
+  %71 = function_ref @$ss5Int32V10TensorFlow01_bC18DataTypeCompatibleA2cDP06tensorcdE0AC0bdE0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Int32.Type) -> TensorDataType // user: %72
+  %72 = apply %71(%70) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Int32.Type) -> TensorDataType
+  %73 = graph_op "Fill"(%52 : $TensorHandle<Int32>, %60 : $TensorHandle<Float>) {T$dtype: i32 1, index_type$dtype: i32 3, __device: "/job:localhost/replica:0/task:0/device:CPU:0"} : $TensorHandle<Float> // users: %77, %74, %75, %80, %76, %83, %84
+  strong_retain %73 : $TensorHandle<Float>        // id: %74
+  strong_retain %73 : $TensorHandle<Float>        // id: %75
+  strong_release %73 : $TensorHandle<Float>       // id: %76
+  strong_release %73 : $TensorHandle<Float>       // id: %77
+  strong_release %60 : $TensorHandle<Float>       // id: %78
+  strong_release %52 : $TensorHandle<Int32>       // id: %79
+  strong_retain %73 : $TensorHandle<Float>        // id: %80
+  release_value %16 : $TensorShape                // id: %81
+  destroy_addr %17 : $*Float                      // id: %82
+  strong_release %73 : $TensorHandle<Float>       // id: %83
+  br bb3(%73 : $TensorHandle<Float>)              // id: %84
+
+bb2(%85 : $Error):                                // Preds: bb0
+  strong_release %41 : $@callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) // id: %86
+  strong_release %37 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %87
+  unreachable                                     // id: %88
+
+// %89                                            // users: %94, %92, %90
+bb3(%89 : $TensorHandle<Float>):                  // Preds: bb1
+  %90 = struct $Tensor<Float> (%89 : $TensorHandle<Float>) // user: %95
+  dealloc_stack %17 : $*Float                     // id: %91
+  strong_retain %89 : $TensorHandle<Float>        // id: %92
+  release_value %16 : $TensorShape                // id: %93
+  strong_release %89 : $TensorHandle<Float>       // id: %94
+  br bb4(%90 : $Tensor<Float>)                    // id: %95
+
+// %96                                            // users: %199, %332, %97
+bb4(%96 : $Tensor<Float>):                        // Preds: bb3
+  debug_value %96 : $Tensor<Float>, let, name "x" // id: %97
+  %98 = metatype $@thin TensorShape.Type          // user: %114
+  %99 = integer_literal $Builtin.Word, 2          // user: %101
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %100 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %101
+  %101 = apply %100<Int>(%99) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %103, %102
+  %102 = tuple_extract %101 : $(Array<Int>, Builtin.RawPointer), 0 // user: %114
+  %103 = tuple_extract %101 : $(Array<Int>, Builtin.RawPointer), 1 // user: %104
+  %104 = pointer_to_address %103 : $Builtin.RawPointer to [strict] $*Int // users: %107, %109
+  %105 = integer_literal $Builtin.Int64, 20       // user: %106
+  %106 = struct $Int (%105 : $Builtin.Int64)      // user: %107
+  store %106 to %104 : $*Int                      // id: %107
+  %108 = integer_literal $Builtin.Word, 1         // user: %109
+  %109 = index_addr %104 : $*Int, %108 : $Builtin.Word // user: %112
+  %110 = integer_literal $Builtin.Int64, 10       // user: %111
+  %111 = struct $Int (%110 : $Builtin.Int64)      // user: %112
+  store %111 to %109 : $*Int                      // id: %112
+  // function_ref TensorShape.init(_:)
+  %113 = function_ref @$s10TensorFlow0A5ShapeVyACSaySiGcfC : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %114
+  %114 = apply %113(%102, %98) : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // users: %191, %179, %126, %125
+  %115 = alloc_stack $Float                       // users: %123, %189, %180, %157
+  %116 = metatype $@thick Float.Type              // user: %123
+  %117 = alloc_stack $Int64                       // users: %123, %121, %124
+  %118 = metatype $@thick Int64.Type              // user: %121
+  %119 = integer_literal $Builtin.IntLiteral, 1   // user: %121
+  // function_ref protocol witness for _ExpressibleByBuiltinIntegerLiteral.init(_builtinIntegerLiteral:) in conformance Int64
+  %120 = function_ref @$ss5Int64Vs35_ExpressibleByBuiltinIntegerLiteralssACP08_builtineF0xBI_tcfCTW : $@convention(witness_method: _ExpressibleByBuiltinIntegerLiteral) (Builtin.IntLiteral, @thick Int64.Type) -> @out Int64 // user: %121
+  %121 = apply %120(%117, %119, %118) : $@convention(witness_method: _ExpressibleByBuiltinIntegerLiteral) (Builtin.IntLiteral, @thick Int64.Type) -> @out Int64
+  // function_ref protocol witness for ExpressibleByIntegerLiteral.init(integerLiteral:) in conformance Float
+  %122 = function_ref @$sSfs27ExpressibleByIntegerLiteralssAAP07integerD0x0cD4TypeQz_tcfCTW : $@convention(witness_method: ExpressibleByIntegerLiteral) (@in Int64, @thick Float.Type) -> @out Float // user: %123
+  %123 = apply %122(%115, %117, %116) : $@convention(witness_method: ExpressibleByIntegerLiteral) (@in Int64, @thick Float.Type) -> @out Float
+  dealloc_stack %117 : $*Int64                    // id: %124
+  retain_value %114 : $TensorShape                // id: %125
+  %126 = struct_extract %114 : $TensorShape, #TensorShape.dimensions // users: %129, %127
+  retain_value %126 : $Array<Int>                 // id: %127
+  %128 = alloc_stack $Array<Int>                  // users: %143, %148, %147, %129
+  store %126 to %128 : $*Array<Int>               // id: %129
+  %130 = metatype $@thick Int32.Type              // user: %132
+  // function_ref curry thunk of SignedInteger<>.init<A>(_:)
+  %131 = function_ref @$sSZss17FixedWidthIntegerRzrlEyxqd__cSzRd__lufCTc : $@convention(thin) <τ_0_0 where τ_0_0 : FixedWidthInteger, τ_0_0 : SignedInteger><τ_1_0 where τ_1_0 : BinaryInteger> (@thick τ_0_0.Type) -> @owned @callee_guaranteed (@in_guaranteed τ_1_0) -> @out τ_0_0 // user: %132
+  %132 = apply %131<Int32, Int>(%130) : $@convention(thin) <τ_0_0 where τ_0_0 : FixedWidthInteger, τ_0_0 : SignedInteger><τ_1_0 where τ_1_0 : BinaryInteger> (@thick τ_0_0.Type) -> @owned @callee_guaranteed (@in_guaranteed τ_1_0) -> @out τ_0_0 // user: %134
+  // function_ref thunk for @escaping @callee_guaranteed (@in_guaranteed Int) -> (@out Int32)
+  %133 = function_ref @$sSis5Int32VIegnr_SiABIegyd_TR : $@convention(thin) (Int, @guaranteed @callee_guaranteed (@in_guaranteed Int) -> @out Int32) -> Int32 // user: %134
+  %134 = partial_apply [callee_guaranteed] %133(%132) : $@convention(thin) (Int, @guaranteed @callee_guaranteed (@in_guaranteed Int) -> @out Int32) -> Int32 // user: %135
+  %135 = convert_function %134 : $@callee_guaranteed (Int) -> Int32 to $@callee_guaranteed (Int) -> (Int32, @error Error) // users: %185, %146, %141, %137, %136
+  strong_retain %135 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %136
+  %137 = convert_escape_to_noescape %135 : $@callee_guaranteed (Int) -> (Int32, @error Error) to $@noescape @callee_guaranteed (Int) -> (Int32, @error Error) // user: %139
+  // function_ref thunk for @callee_guaranteed (@unowned Int) -> (@unowned Int32, @error @owned Error)
+  %138 = function_ref @$sSis5Int32Vs5Error_pIgydzo_SiABsAC_pIegnrzo_TR : $@convention(thin) (@in_guaranteed Int, @noescape @callee_guaranteed (Int) -> (Int32, @error Error)) -> (@out Int32, @error Error) // user: %139
+  %139 = partial_apply [callee_guaranteed] %138(%137) : $@convention(thin) (@in_guaranteed Int, @noescape @callee_guaranteed (Int) -> (Int32, @error Error)) -> (@out Int32, @error Error) // users: %184, %145, %140
+  %140 = convert_escape_to_noescape %139 : $@callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) to $@noescape @callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) // user: %143
+  strong_release %135 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %141
+  // function_ref Collection.map<A>(_:)
+  %142 = function_ref @$sSlsE3mapySayqd__Gqd__7ElementQzKXEKlF : $@convention(method) <τ_0_0 where τ_0_0 : Collection><τ_1_0> (@noescape @callee_guaranteed (@in_guaranteed τ_0_0.Element) -> (@out τ_1_0, @error Error), @in_guaranteed τ_0_0) -> (@owned Array<τ_1_0>, @error Error) // user: %143
+  try_apply %142<Array<Int>, Int32>(%140, %128) : $@convention(method) <τ_0_0 where τ_0_0 : Collection><τ_1_0> (@noescape @callee_guaranteed (@in_guaranteed τ_0_0.Element) -> (@out τ_1_0, @error Error), @in_guaranteed τ_0_0) -> (@owned Array<τ_1_0>, @error Error), normal bb5, error bb6 // id: %143
+
+// %144                                           // users: %154, %150
+bb5(%144 : $Array<Int32>):                        // Preds: bb4
+  strong_release %139 : $@callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) // id: %145
+  strong_release %135 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %146
+  destroy_addr %128 : $*Array<Int>                // id: %147
+  dealloc_stack %128 : $*Array<Int>               // id: %148
+  // function_ref __tf_tensor_from_scalars_1d
+  %149 = function_ref @__tf_tensor_from_scalars_1d : $@convention(thin) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Array<τ_0_0>) -> @owned TensorHandle<τ_0_0> // user: %150
+  %150 = apply %149<Int32>(%144) : $@convention(thin) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Array<τ_0_0>) -> @owned TensorHandle<τ_0_0> // users: %171, %155, %152, %177, %153, %151
+  strong_retain %150 : $TensorHandle<Int32>       // id: %151
+  strong_release %150 : $TensorHandle<Int32>      // id: %152
+  strong_retain %150 : $TensorHandle<Int32>       // id: %153
+  release_value %144 : $Array<Int32>              // id: %154
+  strong_release %150 : $TensorHandle<Int32>      // id: %155
+  %156 = alloc_stack $Float                       // users: %164, %162, %157
+  copy_addr %115 to [initialization] %156 : $*Float // id: %157
+  %158 = graph_op "Const"() {dtype$dtype: i32 1, value$tensor: f32 0x3F800000 /* 1 */, __device: "ALL_DEVICES"} : $TensorHandle<Float> // users: %171, %159, %161, %176, %160, %163
+  strong_retain %158 : $TensorHandle<Float>       // id: %159
+  strong_release %158 : $TensorHandle<Float>      // id: %160
+  strong_retain %158 : $TensorHandle<Float>       // id: %161
+  destroy_addr %156 : $*Float                     // id: %162
+  strong_release %158 : $TensorHandle<Float>      // id: %163
+  dealloc_stack %156 : $*Float                    // id: %164
+  %165 = metatype $@thick Float.Type              // user: %167
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Float
+  %166 = function_ref @$sSf10TensorFlow01_aB18DataTypeCompatibleA2aBP06tensorbcD0AA0acD0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType // user: %167
+  %167 = apply %166(%165) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType
+  %168 = metatype $@thick Int32.Type              // user: %170
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Int32
+  %169 = function_ref @$ss5Int32V10TensorFlow01_bC18DataTypeCompatibleA2cDP06tensorcdE0AC0bdE0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Int32.Type) -> TensorDataType // user: %170
+  %170 = apply %169(%168) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Int32.Type) -> TensorDataType
+  %171 = graph_op "Fill"(%150 : $TensorHandle<Int32>, %158 : $TensorHandle<Float>) {T$dtype: i32 1, index_type$dtype: i32 3, __device: "/job:localhost/replica:0/task:0/device:CPU:0"} : $TensorHandle<Float> // users: %175, %172, %173, %178, %174, %181, %182
+  strong_retain %171 : $TensorHandle<Float>       // id: %172
+  strong_retain %171 : $TensorHandle<Float>       // id: %173
+  strong_release %171 : $TensorHandle<Float>      // id: %174
+  strong_release %171 : $TensorHandle<Float>      // id: %175
+  strong_release %158 : $TensorHandle<Float>      // id: %176
+  strong_release %150 : $TensorHandle<Int32>      // id: %177
+  strong_retain %171 : $TensorHandle<Float>       // id: %178
+  release_value %114 : $TensorShape               // id: %179
+  destroy_addr %115 : $*Float                     // id: %180
+  strong_release %171 : $TensorHandle<Float>      // id: %181
+  br bb7(%171 : $TensorHandle<Float>)             // id: %182
+
+bb6(%183 : $Error):                               // Preds: bb4
+  strong_release %139 : $@callee_guaranteed (@in_guaranteed Int) -> (@out Int32, @error Error) // id: %184
+  strong_release %135 : $@callee_guaranteed (Int) -> (Int32, @error Error) // id: %185
+  unreachable                                     // id: %186
+
+// %187                                           // users: %192, %190, %188
+bb7(%187 : $TensorHandle<Float>):                 // Preds: bb5
+  %188 = struct $Tensor<Float> (%187 : $TensorHandle<Float>) // user: %193
+  dealloc_stack %115 : $*Float                    // id: %189
+  strong_retain %187 : $TensorHandle<Float>       // id: %190
+  release_value %114 : $TensorShape               // id: %191
+  strong_release %187 : $TensorHandle<Float>      // id: %192
+  br bb8(%188 : $Tensor<Float>)                   // id: %193
+
+// %194                                           // users: %200, %330, %195
+bb8(%194 : $Tensor<Float>):                       // Preds: bb7
+  debug_value %194 : $Tensor<Float>, let, name "y" // id: %195
+  %196 = metatype $@thick Float.Type              // user: %198
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Float
+  %197 = function_ref @$sSf10TensorFlow01_aB18DataTypeCompatibleA2aBP06tensorbcD0AA0acD0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType // user: %198
+  %198 = apply %197(%196) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType
+  %199 = struct_extract %96 : $Tensor<Float>, #Tensor.handle // user: %201
+  %200 = struct_extract %194 : $Tensor<Float>, #Tensor.handle // user: %201
+  %201 = graph_op "MatMul"(%199 : $TensorHandle<Float>, %200 : $TensorHandle<Float>) {T$dtype: i32 1, transpose_a: i1 0, transpose_b: i1 0, __device: "/job:localhost/replica:0/task:0/device:CPU:0"} : $TensorHandle<Float> // users: %221, %206, %203, %202, %204, %329, %205
+  strong_retain %201 : $TensorHandle<Float>       // id: %202
+  %203 = struct $Tensor<Float> (%201 : $TensorHandle<Float>) // user: %207
+  strong_retain %201 : $TensorHandle<Float>       // id: %204
+  strong_release %201 : $TensorHandle<Float>      // id: %205
+  strong_release %201 : $TensorHandle<Float>      // id: %206
+  debug_value %203 : $Tensor<Float>, let, name "out" // id: %207
+  %208 = integer_literal $Builtin.Word, 1         // user: %210
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %209 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %210
+  %210 = apply %209<Any>(%208) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %212, %211
+  %211 = tuple_extract %210 : $(Array<Any>, Builtin.RawPointer), 0 // users: %328, %325
+  %212 = tuple_extract %210 : $(Array<Any>, Builtin.RawPointer), 1 // user: %213
+  %213 = pointer_to_address %212 : $Builtin.RawPointer to [strict] $*Any // user: %318
+  %214 = metatype $@thin TensorShape.Type         // user: %311
+  %215 = metatype $@thick Float.Type              // user: %217
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Float
+  %216 = function_ref @$sSf10TensorFlow01_aB18DataTypeCompatibleA2aBP06tensorbcD0AA0acD0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType // user: %217
+  %217 = apply %216(%215) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Float.Type) -> TensorDataType
+  %218 = metatype $@thick Int32.Type              // user: %220
+  // function_ref protocol witness for static _TensorFlowDataTypeCompatible.tensorFlowDataType.getter in conformance Int32
+  %219 = function_ref @$ss5Int32V10TensorFlow01_bC18DataTypeCompatibleA2cDP06tensorcdE0AC0bdE0VvgZTW : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Int32.Type) -> TensorDataType // user: %220
+  %220 = apply %219(%218) : $@convention(witness_method: _TensorFlowDataTypeCompatible) (@thick Int32.Type) -> TensorDataType
+  %221 = graph_op "Shape"(%201 : $TensorHandle<Float>) {T$dtype: i32 1, out_type$dtype: i32 3, __device: "/job:localhost/replica:0/task:0/device:CPU:0"} : $TensorHandle<Int32> // users: %226, %223, %222, %224, %288, %225
+  strong_retain %221 : $TensorHandle<Int32>       // id: %222
+  %223 = struct $Tensor<Int32> (%221 : $TensorHandle<Int32>) // users: %266, %239
+  strong_retain %221 : $TensorHandle<Int32>       // id: %224
+  strong_release %221 : $TensorHandle<Int32>      // id: %225
+  strong_release %221 : $TensorHandle<Int32>      // id: %226
+  // function_ref implicit closure #1 in Tensor.array.getter
+  %227 = function_ref @$s10TensorFlow0A0V5arrayAA11ShapedArrayVyxGvgSSyXEfu_ : $@convention(thin) () -> @owned String // user: %228
+  %228 = convert_function %227 : $@convention(thin) () -> @owned String to $@convention(thin) @noescape () -> @owned String // user: %229
+  %229 = thin_to_thick_function %228 : $@convention(thin) @noescape () -> @owned String to $@noescape @callee_guaranteed () -> @owned String // user: %238
+  %230 = string_literal utf8 "/swift-base/swift/stdlib/public/TensorFlow/Tensor.swift" // user: %232
+  %231 = integer_literal $Builtin.Word, 55        // user: %234
+  %232 = builtin "ptrtoint_Word"(%230 : $Builtin.RawPointer) : $Builtin.Word // user: %234
+  %233 = integer_literal $Builtin.Int8, 2         // user: %234
+  %234 = struct $StaticString (%232 : $Builtin.Word, %231 : $Builtin.Word, %233 : $Builtin.Int8) // user: %238
+  %235 = integer_literal $Builtin.Int64, 883      // user: %236
+  %236 = struct $UInt (%235 : $Builtin.Int64)     // user: %238
+  // function_ref debugLog(_:file:line:)
+  %237 = function_ref @$s10TensorFlow8debugLog_4file4lineySSyXK_s12StaticStringVSutF : $@convention(thin) (@noescape @callee_guaranteed () -> @owned String, StaticString, UInt) -> () // user: %238
+  %238 = apply %237(%229, %234, %236) : $@convention(thin) (@noescape @callee_guaranteed () -> @owned String, StaticString, UInt) -> ()
+  %239 = struct_extract %223 : $Tensor<Int32>, #Tensor.handle // user: %241
+  // function_ref __tf_to_host
+  %240 = function_ref @__tf_to_host : $@convention(thin) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> @owned TensorHandle<τ_0_0> // user: %241
+  %241 = apply %240<Int32>(%239) : $@convention(thin) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> @owned TensorHandle<τ_0_0> // users: %249, %246, %244, %265, %243, %242
+  %242 = struct $Tensor<Int32> (%241 : $TensorHandle<Int32>) // user: %245
+  strong_retain %241 : $TensorHandle<Int32>       // id: %243
+  strong_release %241 : $TensorHandle<Int32>      // id: %244
+  %245 = struct_extract %242 : $Tensor<Int32>, #Tensor.handle // user: %248
+  strong_retain %241 : $TensorHandle<Int32>       // id: %246
+  // function_ref TensorHandle.isConcrete.getter
+  %247 = function_ref @$s10TensorFlow0A6HandleC10isConcreteSbvg : $@convention(method) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> Bool // user: %248
+  %248 = apply %247<Int32>(%245) : $@convention(method) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> Bool // user: %263
+  strong_release %241 : $TensorHandle<Int32>      // id: %249
+  %250 = string_literal utf8 "/swift-base/swift/stdlib/public/TensorFlow/Tensor.swift" // user: %252
+  %251 = integer_literal $Builtin.Word, 55        // user: %256
+  %252 = builtin "ptrtoint_Word"(%250 : $Builtin.RawPointer) : $Builtin.Word // user: %256
+  br bb9                                          // id: %253
+
+bb9:                                              // Preds: bb8
+  %254 = integer_literal $Builtin.Int8, 2         // user: %256
+  br bb10                                         // id: %255
+
+bb10:                                             // Preds: bb9
+  %256 = struct $StaticString (%252 : $Builtin.Word, %251 : $Builtin.Word, %254 : $Builtin.Int8) // user: %263
+  br bb11                                         // id: %257
+
+bb11:                                             // Preds: bb10
+  %258 = integer_literal $Builtin.Int64, 884      // user: %259
+  %259 = struct $UInt (%258 : $Builtin.Int64)     // user: %263
+  // function_ref default argument 1 of internalConsistencyCheck(_:_:file:line:)
+  %260 = function_ref @$s10TensorFlow24internalConsistencyCheck__4file4lineySb_SSs12StaticStringVSutFfA0_ : $@convention(thin) () -> @owned String // user: %261
+  %261 = apply %260() : $@convention(thin) () -> @owned String // users: %264, %263
+  // function_ref internalConsistencyCheck(_:_:file:line:)
+  %262 = function_ref @$s10TensorFlow24internalConsistencyCheck__4file4lineySb_SSs12StaticStringVSutF : $@convention(thin) (Bool, @guaranteed String, StaticString, UInt) -> () // user: %263
+  %263 = apply %262(%248, %261, %256, %259) : $@convention(thin) (Bool, @guaranteed String, StaticString, UInt) -> ()
+  release_value %261 : $String                    // id: %264
+  strong_release %241 : $TensorHandle<Int32>      // id: %265
+  %266 = struct_extract %223 : $Tensor<Int32>, #Tensor.handle // user: %268
+  // function_ref __tf_to_host
+  %267 = function_ref @__tf_to_host : $@convention(thin) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> @owned TensorHandle<τ_0_0> // user: %268
+  %268 = apply %267<Int32>(%266) : $@convention(thin) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> @owned TensorHandle<τ_0_0> // users: %276, %273, %271, %277, %270, %269
+  %269 = struct $Tensor<Int32> (%268 : $TensorHandle<Int32>) // user: %272
+  strong_retain %268 : $TensorHandle<Int32>       // id: %270
+  strong_release %268 : $TensorHandle<Int32>      // id: %271
+  %272 = struct_extract %269 : $Tensor<Int32>, #Tensor.handle // user: %275
+  strong_retain %268 : $TensorHandle<Int32>       // id: %273
+  // function_ref TensorHandle.makeHostCopy()
+  %274 = function_ref @$s10TensorFlow0A6HandleC12makeHostCopyAA11ShapedArrayVyxGyF : $@convention(method) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> @owned ShapedArray<τ_0_0> // user: %275
+  %275 = apply %274<Int32>(%272) : $@convention(method) <τ_0_0 where τ_0_0 : _TensorFlowDataTypeCompatible> (@guaranteed TensorHandle<τ_0_0>) -> @owned ShapedArray<τ_0_0> // user: %278
+  strong_release %268 : $TensorHandle<Int32>      // id: %276
+  strong_release %268 : $TensorHandle<Int32>      // id: %277
+  br bb12(%275 : $ShapedArray<Int32>)             // id: %278
+
+// %279                                           // users: %285, %281
+bb12(%279 : $ShapedArray<Int32>):                 // Preds: bb11
+  %280 = alloc_stack $ShapedArray<Int32>          // users: %284, %283, %281
+  store %279 to %280 : $*ShapedArray<Int32>       // id: %281
+  // function_ref _ShapedArrayProtocol.scalars.getter
+  %282 = function_ref @$s10TensorFlow20_ShapedArrayProtocolPAAE7scalarsSay6ScalarQzGvg : $@convention(method) <τ_0_0 where τ_0_0 : _ShapedArrayProtocol> (@in_guaranteed τ_0_0) -> @owned Array<τ_0_0.Scalar> // user: %283
+  %283 = apply %282<ShapedArray<Int32>>(%280) : $@convention(method) <τ_0_0 where τ_0_0 : _ShapedArrayProtocol> (@in_guaranteed τ_0_0) -> @owned Array<τ_0_0.Scalar> // user: %286
+  dealloc_stack %280 : $*ShapedArray<Int32>       // id: %284
+  release_value %279 : $ShapedArray<Int32>        // id: %285
+  br bb13(%283 : $Array<Int32>)                   // id: %286
+
+// %287                                           // user: %290
+bb13(%287 : $Array<Int32>):                       // Preds: bb12
+  strong_release %221 : $TensorHandle<Int32>      // id: %288
+  %289 = alloc_stack $Array<Int32>                // users: %304, %309, %308, %290
+  store %287 to %289 : $*Array<Int32>             // id: %290
+  %291 = metatype $@thick Int.Type                // user: %293
+  // function_ref curry thunk of SignedInteger<>.init<A>(_:)
+  %292 = function_ref @$sSZss17FixedWidthIntegerRzrlEyxqd__cSzRd__lufCTc : $@convention(thin) <τ_0_0 where τ_0_0 : FixedWidthInteger, τ_0_0 : SignedInteger><τ_1_0 where τ_1_0 : BinaryInteger> (@thick τ_0_0.Type) -> @owned @callee_guaranteed (@in_guaranteed τ_1_0) -> @out τ_0_0 // user: %293
+  %293 = apply %292<Int, Int32>(%291) : $@convention(thin) <τ_0_0 where τ_0_0 : FixedWidthInteger, τ_0_0 : SignedInteger><τ_1_0 where τ_1_0 : BinaryInteger> (@thick τ_0_0.Type) -> @owned @callee_guaranteed (@in_guaranteed τ_1_0) -> @out τ_0_0 // user: %295
+  // function_ref thunk for @escaping @callee_guaranteed (@in_guaranteed Int32) -> (@out Int)
+  %294 = function_ref @$ss5Int32VSiIegnr_ABSiIegyd_TR : $@convention(thin) (Int32, @guaranteed @callee_guaranteed (@in_guaranteed Int32) -> @out Int) -> Int // user: %295
+  %295 = partial_apply [callee_guaranteed] %294(%293) : $@convention(thin) (Int32, @guaranteed @callee_guaranteed (@in_guaranteed Int32) -> @out Int) -> Int // user: %296
+  %296 = convert_function %295 : $@callee_guaranteed (Int32) -> Int to $@callee_guaranteed (Int32) -> (Int, @error Error) // users: %315, %307, %302, %298, %297
+  strong_retain %296 : $@callee_guaranteed (Int32) -> (Int, @error Error) // id: %297
+  %298 = convert_escape_to_noescape %296 : $@callee_guaranteed (Int32) -> (Int, @error Error) to $@noescape @callee_guaranteed (Int32) -> (Int, @error Error) // user: %300
+  // function_ref thunk for @callee_guaranteed (@unowned Int32) -> (@unowned Int, @error @owned Error)
+  %299 = function_ref @$ss5Int32VSis5Error_pIgydzo_ABSisAC_pIegnrzo_TR : $@convention(thin) (@in_guaranteed Int32, @noescape @callee_guaranteed (Int32) -> (Int, @error Error)) -> (@out Int, @error Error) // user: %300
+  %300 = partial_apply [callee_guaranteed] %299(%298) : $@convention(thin) (@in_guaranteed Int32, @noescape @callee_guaranteed (Int32) -> (Int, @error Error)) -> (@out Int, @error Error) // users: %314, %306, %301
+  %301 = convert_escape_to_noescape %300 : $@callee_guaranteed (@in_guaranteed Int32) -> (@out Int, @error Error) to $@noescape @callee_guaranteed (@in_guaranteed Int32) -> (@out Int, @error Error) // user: %304
+  strong_release %296 : $@callee_guaranteed (Int32) -> (Int, @error Error) // id: %302
+  // function_ref Collection.map<A>(_:)
+  %303 = function_ref @$sSlsE3mapySayqd__Gqd__7ElementQzKXEKlF : $@convention(method) <τ_0_0 where τ_0_0 : Collection><τ_1_0> (@noescape @callee_guaranteed (@in_guaranteed τ_0_0.Element) -> (@out τ_1_0, @error Error), @in_guaranteed τ_0_0) -> (@owned Array<τ_1_0>, @error Error) // user: %304
+  try_apply %303<Array<Int32>, Int>(%301, %289) : $@convention(method) <τ_0_0 where τ_0_0 : Collection><τ_1_0> (@noescape @callee_guaranteed (@in_guaranteed τ_0_0.Element) -> (@out τ_1_0, @error Error), @in_guaranteed τ_0_0) -> (@owned Array<τ_1_0>, @error Error), normal bb14, error bb15 // id: %304
+
+// %305                                           // user: %311
+bb14(%305 : $Array<Int>):                         // Preds: bb13
+  strong_release %300 : $@callee_guaranteed (@in_guaranteed Int32) -> (@out Int, @error Error) // id: %306
+  strong_release %296 : $@callee_guaranteed (Int32) -> (Int, @error Error) // id: %307
+  destroy_addr %289 : $*Array<Int32>              // id: %308
+  dealloc_stack %289 : $*Array<Int32>             // id: %309
+  // function_ref TensorShape.init(_:)
+  %310 = function_ref @$s10TensorFlow0A5ShapeVyACSaySiGcfC : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %311
+  %311 = apply %310(%305, %214) : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %312
+  br bb16(%311 : $TensorShape)                    // id: %312
+
+bb15(%313 : $Error):                              // Preds: bb13
+  strong_release %300 : $@callee_guaranteed (@in_guaranteed Int32) -> (@out Int, @error Error) // id: %314
+  strong_release %296 : $@callee_guaranteed (Int32) -> (Int, @error Error) // id: %315
+  unreachable                                     // id: %316
+
+// %317                                           // user: %319
+bb16(%317 : $TensorShape):                        // Preds: bb14
+  %318 = init_existential_addr %213 : $*Any, $TensorShape // user: %319
+  store %317 to %318 : $*TensorShape              // id: %319
+  // function_ref default argument 1 of print(_:separator:terminator:)
+  %320 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA0_ : $@convention(thin) () -> @owned String // user: %321
+  %321 = apply %320() : $@convention(thin) () -> @owned String // users: %327, %325
+  // function_ref default argument 2 of print(_:separator:terminator:)
+  %322 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA1_ : $@convention(thin) () -> @owned String // user: %323
+  %323 = apply %322() : $@convention(thin) () -> @owned String // users: %326, %325
+  // function_ref print(_:separator:terminator:)
+  %324 = function_ref @$ss5print_9separator10terminatoryypd_S2StF : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> () // user: %325
+  %325 = apply %324(%211, %321, %323) : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> ()
+  release_value %323 : $String                    // id: %326
+  release_value %321 : $String                    // id: %327
+  release_value %211 : $Array<Any>                // id: %328
+  strong_release %201 : $TensorHandle<Float>      // id: %329
+  %330 = struct_extract %194 : $Tensor<Float>, #Tensor.handle // user: %331
+  strong_release %330 : $TensorHandle<Float>      // id: %331
+  %332 = struct_extract %96 : $Tensor<Float>, #Tensor.handle // user: %333
+  strong_release %332 : $TensorHandle<Float>      // id: %333
+  %334 = tuple ()                                 // user: %335
+  return %334 : $()                               // id: %335
+} // end sil function '$s6matmul4mainyyF'
+
+----

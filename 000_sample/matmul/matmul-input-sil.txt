@@ -1,0 +1,88 @@
+--- TFDeabstraction Input: $s6matmul4mainyyF
+// main()
+sil hidden @$s6matmul4mainyyF : $@convention(thin) () -> () {
+bb0:
+  %0 = metatype $@thin Tensor<Float>.Type         // user: %19
+  %1 = metatype $@thin TensorShape.Type           // user: %17
+  %2 = integer_literal $Builtin.Word, 2           // user: %4
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %3 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %4
+  %4 = apply %3<Int>(%2) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %6, %5
+  %5 = tuple_extract %4 : $(Array<Int>, Builtin.RawPointer), 0 // user: %17
+  %6 = tuple_extract %4 : $(Array<Int>, Builtin.RawPointer), 1 // user: %7
+  %7 = pointer_to_address %6 : $Builtin.RawPointer to [strict] $*Int // users: %10, %12
+  %8 = integer_literal $Builtin.Int64, 10         // user: %9
+  %9 = struct $Int (%8 : $Builtin.Int64)          // user: %10
+  store %9 to %7 : $*Int                          // id: %10
+  %11 = integer_literal $Builtin.Word, 1          // user: %12
+  %12 = index_addr %7 : $*Int, %11 : $Builtin.Word // user: %15
+  %13 = integer_literal $Builtin.Int64, 20        // user: %14
+  %14 = struct $Int (%13 : $Builtin.Int64)        // user: %15
+  store %14 to %12 : $*Int                        // id: %15
+  // function_ref TensorShape.init(_:)
+  %16 = function_ref @$s10TensorFlow0A5ShapeVyACSaySiGcfC : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %17
+  %17 = apply %16(%5, %1) : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %19
+  // function_ref Tensor<>.init(ones:)
+  %18 = function_ref @$s10TensorFlow0A0VAASjRzrlE4onesACyxGAA0A5ShapeV_tcfC : $@convention(method) <τ_0_0 where τ_0_0 : Numeric, τ_0_0 : TensorFlowScalar> (@owned TensorShape, @thin Tensor<τ_0_0>.Type) -> @owned Tensor<τ_0_0> // user: %19
+  %19 = apply %18<Float>(%17, %0) : $@convention(method) <τ_0_0 where τ_0_0 : Numeric, τ_0_0 : TensorFlowScalar> (@owned TensorShape, @thin Tensor<τ_0_0>.Type) -> @owned Tensor<τ_0_0> // users: %66, %43, %20
+  debug_value %19 : $Tensor<Float>, let, name "x" // id: %20
+  %21 = metatype $@thin Tensor<Float>.Type        // user: %40
+  %22 = metatype $@thin TensorShape.Type          // user: %38
+  %23 = integer_literal $Builtin.Word, 2          // user: %25
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %24 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %25
+  %25 = apply %24<Int>(%23) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %27, %26
+  %26 = tuple_extract %25 : $(Array<Int>, Builtin.RawPointer), 0 // user: %38
+  %27 = tuple_extract %25 : $(Array<Int>, Builtin.RawPointer), 1 // user: %28
+  %28 = pointer_to_address %27 : $Builtin.RawPointer to [strict] $*Int // users: %31, %33
+  %29 = integer_literal $Builtin.Int64, 20        // user: %30
+  %30 = struct $Int (%29 : $Builtin.Int64)        // user: %31
+  store %30 to %28 : $*Int                        // id: %31
+  %32 = integer_literal $Builtin.Word, 1          // user: %33
+  %33 = index_addr %28 : $*Int, %32 : $Builtin.Word // user: %36
+  %34 = integer_literal $Builtin.Int64, 10        // user: %35
+  %35 = struct $Int (%34 : $Builtin.Int64)        // user: %36
+  store %35 to %33 : $*Int                        // id: %36
+  // function_ref TensorShape.init(_:)
+  %37 = function_ref @$s10TensorFlow0A5ShapeVyACSaySiGcfC : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %38
+  %38 = apply %37(%26, %22) : $@convention(method) (@owned Array<Int>, @thin TensorShape.Type) -> @owned TensorShape // user: %40
+  // function_ref Tensor<>.init(ones:)
+  %39 = function_ref @$s10TensorFlow0A0VAASjRzrlE4onesACyxGAA0A5ShapeV_tcfC : $@convention(method) <τ_0_0 where τ_0_0 : Numeric, τ_0_0 : TensorFlowScalar> (@owned TensorShape, @thin Tensor<τ_0_0>.Type) -> @owned Tensor<τ_0_0> // user: %40
+  %40 = apply %39<Float>(%38, %21) : $@convention(method) <τ_0_0 where τ_0_0 : Numeric, τ_0_0 : TensorFlowScalar> (@owned TensorShape, @thin Tensor<τ_0_0>.Type) -> @owned Tensor<τ_0_0> // users: %65, %43, %41
+  debug_value %40 : $Tensor<Float>, let, name "y" // id: %41
+  // function_ref matmul<A>(_:_:)
+  %42 = function_ref @$s10TensorFlow6matmulyAA0A0VyxGAE_AEtSjRzAA0aB6ScalarRzlF : $@convention(thin) <τ_0_0 where τ_0_0 : Numeric, τ_0_0 : TensorFlowScalar> (@guaranteed Tensor<τ_0_0>, @guaranteed Tensor<τ_0_0>) -> @owned Tensor<τ_0_0> // user: %43
+  %43 = apply %42<Float>(%19, %40) : $@convention(thin) <τ_0_0 where τ_0_0 : Numeric, τ_0_0 : TensorFlowScalar> (@guaranteed Tensor<τ_0_0>, @guaranteed Tensor<τ_0_0>) -> @owned Tensor<τ_0_0> // users: %64, %52, %44
+  debug_value %43 : $Tensor<Float>, let, name "out" // id: %44
+  %45 = integer_literal $Builtin.Word, 1          // user: %47
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %46 = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %47
+  %47 = apply %46<Any>(%45) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %49, %48
+  %48 = tuple_extract %47 : $(Array<Any>, Builtin.RawPointer), 0 // users: %63, %60
+  %49 = tuple_extract %47 : $(Array<Any>, Builtin.RawPointer), 1 // user: %50
+  %50 = pointer_to_address %49 : $Builtin.RawPointer to [strict] $*Any // user: %53
+  // function_ref Tensor.shape.getter
+  %51 = function_ref @$s10TensorFlow0A0V5shapeAA0A5ShapeVvg : $@convention(method) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Tensor<τ_0_0>) -> @owned TensorShape // user: %52
+  %52 = apply %51<Float>(%43) : $@convention(method) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Tensor<τ_0_0>) -> @owned TensorShape // user: %54
+  %53 = init_existential_addr %50 : $*Any, $TensorShape // user: %54
+  store %52 to %53 : $*TensorShape                // id: %54
+  // function_ref default argument 1 of print(_:separator:terminator:)
+  %55 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA0_ : $@convention(thin) () -> @owned String // user: %56
+  %56 = apply %55() : $@convention(thin) () -> @owned String // users: %62, %60
+  // function_ref default argument 2 of print(_:separator:terminator:)
+  %57 = function_ref @$ss5print_9separator10terminatoryypd_S2StFfA1_ : $@convention(thin) () -> @owned String // user: %58
+  %58 = apply %57() : $@convention(thin) () -> @owned String // users: %61, %60
+  // function_ref print(_:separator:terminator:)
+  %59 = function_ref @$ss5print_9separator10terminatoryypd_S2StF : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> () // user: %60
+  %60 = apply %59(%48, %56, %58) : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> ()
+  release_value %58 : $String                     // id: %61
+  release_value %56 : $String                     // id: %62
+  release_value %48 : $Array<Any>                 // id: %63
+  release_value %43 : $Tensor<Float>              // id: %64
+  release_value %40 : $Tensor<Float>              // id: %65
+  release_value %19 : $Tensor<Float>              // id: %66
+  %67 = tuple ()                                  // user: %68
+  return %67 : $()                                // id: %68
+} // end sil function '$s6matmul4mainyyF'
+
+----
